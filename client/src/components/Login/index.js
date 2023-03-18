@@ -68,7 +68,7 @@ const LoginForm=() => {
                   Welcome Back
                 </h1>
                 <p className='text-center'>
-                  Please enter your account details to login.
+                  Please enter your account  to login.
                 </p>
               </div>
 
