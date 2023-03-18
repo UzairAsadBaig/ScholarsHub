@@ -52,22 +52,6 @@ export const SideNavbar = props => {
                 </span>
               </Link>
             </li>
-             <li className=''>
-              <Link
-                to='/dashboard/table'
-                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
-                  location.pathname.includes('table')
-                    ? 'bg-blue-500 text-white'
-                    : 'hover:bg-gray-100 hover:text-gray-800'
-                }`}
-              >
-                <Dashboard className='' fill='CurrentColor' />
-                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
-                  Table
-                </span>
-              </Link>
-            </li>
-
            
             <li className=''>
               <Link
@@ -114,21 +98,7 @@ export const SideNavbar = props => {
                 </span>
               </Link>
             </li>
-            <li className=''>
-              <Link
-                to='/dashboard/user/jobs/view'
-                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
-                  location.pathname.includes('/dashboard/user/jobs/view')
-                    ? 'bg-blue-500 text-white'
-                    : 'hover:bg-gray-100 hover:text-gray-800'
-                }`}
-              >
-                <Job className='' fill='CurrentColor' />
-                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
-                  User Job
-                </span>
-              </Link>
-            </li> 
+
             <li className=''>
               <Link
                 to='/dashboard/user/jobs'

@@ -3,7 +3,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Card, Row,Col, Divider,Modal, Tag, Button, Space, Input, Form, Upload} from 'antd';
 import { Stack, Typography , Box} from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { useAddJobToWishListMutation, useGetJobQuery } from '../../services/nodeAPI';
+import { useAddJobToWishListMutation, useGetJobQuery, useSubmitApplicationMutation } from '../../services/nodeAPI';
 import Spinner from '../Spinner';
 import { useSelector } from 'react-redux';
 const {TextArea }= Input
@@ -11,7 +11,7 @@ export const UserViewJob=() => {
   let { jobId }=useParams();
   const { data, error, isLoading }=useGetJobQuery( { jobId } );
   const [ addJobToWishList ]=useAddJobToWishListMutation();
-
+  const [ submitApplication ]=useSubmitApplicationMutation();
   const [ isModalOpen, setIsModalOpen ]=useState( false );
   const { user }=useSelector( state => state.user );
   const handleWishList=async ( id ) => {
@@ -19,8 +19,15 @@ export const UserViewJob=() => {
     console.log( 'Res', { userId: user.id, data: { jobid: id } }, res );
 
   }
-    const onFinish = (values) => {
-        console.log('Success:', values);
+  const onFinish=async ( values ) => {
+    console.log( 'Success:', values );
+    let data={ ...values };
+    console.log( data )
+    data.applicant=user._id;
+    data.date=`${new Date()}`;
+    data.job=jobId;
+    const res=await submitApplication( data );
+    console.log( "##RES:", res )
       };
       const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -73,7 +80,7 @@ export const UserViewJob=() => {
   >
     <Form.Item
       label="Cover Letter"
-      name="cover"
+                name="coverLetter"
       rules={[
         {
           required: true,
@@ -82,25 +89,7 @@ export const UserViewJob=() => {
       ]}
     >
       <TextArea  rows={5}/>
-    </Form.Item>
-
-    <Form.Item
-      label="Resume"
-      name="resume"
-      rules={[
-        {
-          required: true,
-          message: 'Please input resume!',
-        },
-      ]}
-    >
-         <Upload {...props}>
-    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-  </Upload>
-    </Form.Item>
-
- 
-
+              </Form.Item>
     <Form.Item
    
     >

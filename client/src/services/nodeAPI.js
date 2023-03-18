@@ -201,17 +201,34 @@ export const nodeAPI = createApi({
           authorization: `Bearer ${Cookies.get( 'jwt' )}`
         }
       } ),
-      getAllWishListJobs: builder.query( {
-        query: ( body ) => ( {
-          url: `/user/wishlist/${body}`,
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${Cookies.get( 'jwt' )}`
-          }
-        } ),
-        providesTags: [ 'Job' ],
-      } ),  
+
+
     } ),
+
+    getAllWishJobs: builder.query( {
+      query: ( body ) => ( {
+        url: `/user/wishlist/${body}`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+
+
+    } ),
+    submitApplication: builder.mutation( {
+      query: ( body ) => ( {
+        url: `/application/`,
+        method: "POST",
+        body,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+
+
+    } ),
+
   }),
 });
 
@@ -233,6 +250,7 @@ export const {
   useGetAllApplicationsByEmpQuery,
   useGetAllJobsEmpQuery,
   useAddJobToWishListMutation,
-  useGetAllWishListJobsQuery,
-  useGetSingleApplicationByEmployerQuery
+  useGetSingleApplicationByEmployerQuery,
+  useGetAllWishJobsQuery,
+  useSubmitApplicationMutation
 } = nodeAPI;
