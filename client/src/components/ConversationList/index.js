@@ -7,7 +7,6 @@ import axios from 'axios';
 import './ConversationList.css';
 
 export default function ConversationList({users,setCurrentReceiver}) {
-  console.log("hiii",users);
   const [conversations, setConversations] = useState([]);
   useEffect(() => {
     getConversations()

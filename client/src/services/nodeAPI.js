@@ -23,7 +23,6 @@ export const nodeAPI = createApi({
     getAllChatUsers: builder.query({
       
       query: (body) => {
-        console.log('yaha dekho',body)
         return({
         url: `/${(body.role=='student' || body.role=='researcher')? 'user' : 'employer'}/chatlist/${body._id}`,
         method: "GET",
@@ -42,6 +41,14 @@ export const nodeAPI = createApi({
         body,
       }),
       // invalidatesTags: [ 'User' ],
+    }),
+    updateMe: builder.mutation( {
+      query: (body) => ({
+        url: "/user/updateMe",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [ 'User' ],
     }),
     //********** Login query
     loginOrg: builder.mutation( {
@@ -98,6 +105,13 @@ export const nodeAPI = createApi({
         method: "GET",
       }),
       providesTags: [ 'Applications' ],
+    } ), 
+    getSingleApplicationByEmployer: builder.query({
+      query: (id) => ({
+        url: `/application/employer/${id}`,
+        method: "GET",
+      }),
+      providesTags: [ 'Applications' ],
     } ),
     //*********** Get all countries data
     getAllCountries: builder.query( {
@@ -122,5 +136,6 @@ export const {
   useGetAllCountriesQuery,
   useLoginUserMutation,
   useLoginOrgMutation,
-  useGetAllApplicationsByEmpQuery
+  useGetAllApplicationsByEmpQuery,
+  useGetSingleApplicationByEmployerQuery
 } = nodeAPI;
