@@ -103,7 +103,7 @@ export const SideNavbar = props => {
                 </span>
               </Link>
             </li>}
-            {(user.role === 'student' || user.role ==='researcher') &&<li className=''>
+            {/* {(user.role === 'student' || user.role ==='researcher') &&<li className=''>
               <Link
                 to='/dashboard/user/jobs/view'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
@@ -117,19 +117,19 @@ export const SideNavbar = props => {
                   User Job
                 </span>
               </Link>
-            </li> }
+            </li> } */}
            {(user.role === 'student' || user.role ==='researcher') && <li className=''>
               <Link
                 to='/dashboard/user/jobs'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
-                  location.pathname.includes('/dashboard/user/jobs')
+                  location.pathname.includes('jobs')
                     ? 'bg-blue-500 text-white'
                     : 'hover:bg-gray-100 hover:text-gray-800'
                 }`}
               >
                 <Job className='' fill='CurrentColor' />
                 <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
-                  User Jobs
+                  Jobs
                 </span>
               </Link>
             </li> }
@@ -137,7 +137,7 @@ export const SideNavbar = props => {
               <Link
                 to='/dashboard/user/jobs/wishlisted'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
-                  location.pathname.includes('/dashboard/user/jobs')
+                  location.pathname.includes('wishlisted')
                     ? 'bg-blue-500 text-white'
                     : 'hover:bg-gray-100 hover:text-gray-800'
                 }`}

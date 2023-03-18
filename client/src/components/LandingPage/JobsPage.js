@@ -1,10 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Card, Col, Input, Row, Tag } from 'antd';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useGetAllJobsEmpQuery } from '../../services/nodeAPI';
 const { Search } = Input;
 
 
 const JobsPage = () => {
+    const { user }=useSelector( state => state.user );
+    const { data: jobsData, error, isLoading }=useGetAllJobsEmpQuery( user.id );
+    console.log(jobsData);
     const onSearch = (value) => console.log(value);
 
     return (
