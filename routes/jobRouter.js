@@ -7,6 +7,7 @@ const {
   updateJob,
   deleteJob} = require( "../controllers/jobController" );
 
+const authController = require("./../controllers/authController");
 
 const jobRouter=express.Router();
 
@@ -15,8 +16,13 @@ const jobRouter=express.Router();
 
 jobRouter.route( '/' ).get(getAllJob).post(createJob);
 
+// Protect all routes after this middleware
+jobRouter.use(authController.protect);
+
 jobRouter.route( "/:id" )
    .get( getSingleJob )
+//Apply authorization here
+jobRouter.route( "/:id" )
    .delete( deleteJob )
    .patch( updateJob )
 

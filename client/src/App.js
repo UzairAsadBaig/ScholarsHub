@@ -15,6 +15,12 @@ import TableComp from "./components/TableComp/TableComp";
 import Messenger from './components/Messenger'
 import UserSignup from "./components/Signup/UserSignup";
 import OrgSignup from "./components/Signup/OrgSignup";
+import {Jobs} from "./components/Jobs/Jobs";
+import {AddJob} from "./components/Jobs/AddJob";
+import { UpdateJob } from "./components/Jobs/UpdateJob";
+import { ViewJob } from "./components/Jobs/ViewJob";
+import { Applicants } from "./components/Applicants/Applicants";
+import { ViewApplicant } from "./components/Applicants/ViewApplicant";
 
 function App() {
 
@@ -37,7 +43,7 @@ function App() {
           exact
           path="dashboard"
           element={
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <>
                 <Navbar />
                 <SideNavbar />
@@ -45,27 +51,81 @@ function App() {
                   <Outlet />
                 </div>
               </>
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         >
           {/****************** ROUTES  *****************/}
 
           <Route
             exact
+            path="jobs"
+            element={
+              // <ProtectedRoute>
+                <Jobs/>
+              // </ProtectedRoute>
+            }
+          />  
+           <Route
+            exact
+            path="jobs/add"
+            element={
+              // <ProtectedRoute>
+                <AddJob/>
+              // </ProtectedRoute>
+            }
+          />
+           <Route
+            exact
+            path="jobs/view"
+            element={
+              // <ProtectedRoute>
+                <ViewJob/>
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="jobs/edit"
+            element={
+              // <ProtectedRoute>
+                <UpdateJob/>
+              // </ProtectedRoute>
+            }
+          />
+           <Route
+            exact
+            path="applicants"
+            element={
+              // <ProtectedRoute>
+                <Applicants/>
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="applicants/view"
+            element={
+              // <ProtectedRoute>
+                <ViewApplicant/>
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
             path="table"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <TableComp />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
            <Route
             exact
             path="messenger"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <Messenger/>
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
         
@@ -78,6 +138,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          
 
       
 
