@@ -14,7 +14,6 @@ export default function ConversationList({users,setCurrentReceiver}) {
   },[])
  const getConversations = () => {
   let newConversations = users.map(result => {
-    // console.log(result)
     return {
       photo: `${result.photo}`,
       name: `${result.name}`,
