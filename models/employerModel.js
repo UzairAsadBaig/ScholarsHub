@@ -36,6 +36,10 @@ const employerSchema = new mongoose.Schema({
     type: String,
     enum: ['institution', 'organization']
   },
+  type: {
+    type: String,
+    enum: ['public', 'private']
+  },
   researchInterest: [String],
   password: {
     type: String,

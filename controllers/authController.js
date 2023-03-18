@@ -75,7 +75,8 @@ exports.signupEmployer = catchAsync(async (req, res, next) => {
     about: req.body.about,
     phone: req.body.phone,
     role: req.body.role,
-    domain: req.body.domain
+    domain: req.body.domain,
+    type: req.body.type
   });
 
   const url = req.protocol+"://"+req.get('host')+"/me";
