@@ -6,7 +6,8 @@ const {
   deleteApplication,
   getSingleApplicationForUser,
   getSingleApplicationForEmployer,
-  startChat
+  startChat,
+  hireEmp
 } = require("../controllers/applicationController");
 
 const applicationRouter = express.Router();
@@ -21,7 +22,7 @@ applicationRouter
   .patch(startChat);
 applicationRouter
   .route("/hire/:id")
-  .patch(startChat);
+  .patch(hireEmp);
 applicationRouter
   .route("/:id")
   .delete(deleteApplication)

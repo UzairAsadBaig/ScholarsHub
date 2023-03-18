@@ -87,6 +87,22 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false
   }
+},
+{
+  // TO SEE VIRTUAL FIELDS
+  toJSON: {
+    virtuals: true,
+  },
+  toObject: {
+    virtuals: true,
+  },
+});
+
+
+userSchema.virtual('applications', {
+  ref: 'Application',
+  foreignField: 'applicant',
+  localField: '_id',
 });
 
 userSchema.pre('save', async function(next) {

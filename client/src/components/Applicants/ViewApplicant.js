@@ -17,12 +17,19 @@ import {
 } from 'antd'
 import { Stack, Typography, Box } from '@mui/material'
 import Spinner from '../Spinner'
+import { db } from "../../firebase";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export const ViewApplicant = () => {
   const { user } = useSelector(state => state.user)
 
   const { appId } = useParams()
   const { data, isLoading } = useGetSingleApplicationByEmployerQuery(appId)
+  const messagesRef = collection(db, "chats");
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const showModal = () => {
@@ -30,6 +37,19 @@ export const ViewApplicant = () => {
   }
   const onFinish = values => {
     console.log('Success:', values)
+  }
+  
+  const handleHire = async (e)=>{
+   e.preventDefault();
+   await addDoc(messagesRef, {
+    title: `${data.data.job.title}` ,
+    message:`${data.data.applicant.name} has been hired`,
+    createdAt: serverTimestamp(),
+    room:`${data.data.job.id}`
+  });
+  
+  console.log("done")
+
   }
 
   if(!data && isLoading)
@@ -164,7 +184,7 @@ export const ViewApplicant = () => {
                   <Space>
                     <Button onClick={showModal}>Schedule Interview</Button>
                     <Button>Chat now</Button>
-                    <Button>Hire</Button>
+                    <Button onClick={handleHire}>Hire</Button>
                     <Button>Shortlist</Button>
                     <Button>Reject Request</Button>
                   </Space>
