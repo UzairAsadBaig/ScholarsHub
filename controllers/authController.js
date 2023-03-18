@@ -6,6 +6,7 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('./../utils/email');
+const Employer = require('../models/employerModel');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -38,12 +39,21 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
+exports.signupUser = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm
+    passwordConfirm: req.body.passwordConfirm,
+    photo: req.body.photo,
+    country: req.body.country,
+    bio: req.body.bio,
+    educaiton:req.body.education,
+    phone: req.body.phone,
+    skills: req.body.skills,
+    language: req.body.language,
+    role: req.body.role,
+    researchInterest: req.body.researchInterest
   });
 
   const url = req.protocol+"://"+req.get('host')+"/me";
@@ -53,7 +63,29 @@ exports.signup = catchAsync(async (req, res, next) => {
   createSendToken(newUser, 201, req, res);
 });
 
-exports.login = catchAsync(async (req, res, next) => {
+exports.signupEmployer = catchAsync(async (req, res, next) => {
+  const newEmployer = await Employer.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    photo: req.body.photo,
+    website: req.body.website,
+    country: req.body.country,
+    about: req.body.about,
+    phone: req.body.phone,
+    role: req.body.role,
+    domain: req.body.domain
+  });
+
+  const url = req.protocol+"://"+req.get('host')+"/me";
+  // console.log(url);
+  //await new Email(newUser, url).sendWelcome();
+
+  createSendToken(newEmployer, 201, req, res);
+});
+
+exports.loginUser = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   // 1) Check if email and password exist
@@ -69,6 +101,24 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 3) If everything ok, send token to client
   createSendToken(user, 200, req, res);
+});
+
+exports.loginEmployer = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // 1) Check if email and password exist
+  if (!email || !password) {
+    return next(new AppError('Please provide email and password!', 400));
+  }
+  // 2) Check if user exists && password is correct
+  const employer = await Employer.findOne({ email }).select('+password');
+
+  if (!employer || !(await employer.correctPassword(password, employer.password))) {
+    return next(new AppError('Incorrect email or password', 401));
+  }
+
+  // 3) If everything ok, send token to client
+  createSendToken(employer, 200, req, res);
 });
 
 exports.logout = (req, res) => {

@@ -14,6 +14,8 @@ const globalErrorHandler = require('./controllers/errorController')
 
 
 //<Import Router>
+const employerRouter = require('./routes/employerRouter');
+
 const userRouter = require('./routes/userRouter');
 
 
@@ -57,6 +59,7 @@ app.use(xss()) //clean  malicious html code from user input
 //! MiddleWare for specfic routes
 
 //<Use Router middleware>
+app.use('/api/v1/employer', employerRouter)
 app.use('/api/v1/user', userRouter)
 
 //! Settings for Deployment
