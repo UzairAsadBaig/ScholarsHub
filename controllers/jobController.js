@@ -9,7 +9,7 @@ const factory=require( './handlerFactory' );
 
 
 // Optimize: get all 
-exports.getAllJob=factory.getAll( Job );
+exports.getAllJob=factory.getAll( Job);
 
 // Optimize: get single data basaed on id
 exports.getSingleJob=factory.getOne( Job );

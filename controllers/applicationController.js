@@ -75,7 +75,7 @@ exports.startChat = catchAsync( async ( req, res, next ) => {
 
 
 // Optimize: get all 
-exports.getAllApplication=factory.getAll( Application );
+exports.getAllApplication=factory.getAll( Application ,{path:'applicant job'});
 
 // Optimize: get single data basaed on id
 exports.getSingleApplicationForUser=factory.getOne( Application ,{path:'job'} );

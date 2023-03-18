@@ -30,6 +30,10 @@ export const Applicants = () => {
           title: 'Job Title',
           dataIndex: 'jobTitle',
           key: 'jobTitle',
+        },{
+          title: 'Country',
+          dataIndex: 'country',
+          key: 'country',
         },
       
         {
@@ -46,13 +50,14 @@ export const Applicants = () => {
       let data =[]
       if(apps)
       {
-         data = apps.map((app)=>{
+         data = apps.data.map((app)=>{
             return {
               key: '1',
-              name: 'John Brown',
-              email: 'test.com',
-              appliedOn:'Feb 2,23',
-              jobTitle: 'Developer',
+              name: app.applicant.name,
+              email: app.applicant.email,
+              appliedOn:app.applicant.date,
+              jobTitle: app.job.title,
+              country: app.applicant.country
             }
           })
       }
