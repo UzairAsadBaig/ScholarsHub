@@ -5,7 +5,8 @@ const {
   getSingleJob,
   createJob,
   updateJob,
-  deleteJob} = require( "../controllers/jobController" );
+  deleteJob,
+  getJobsOfEmployer} = require( "../controllers/jobController" );
 
 const authController = require("./../controllers/authController");
 
@@ -18,6 +19,9 @@ jobRouter.route( '/' ).get(getAllJob).post(createJob);
 
 // Protect all routes after this middleware
 jobRouter.use(authController.protect);
+
+jobRouter.route( "/employer/:id" )
+   .get( getJobsOfEmployer )
 
 jobRouter.route( "/:id" )
    .get( getSingleJob )
