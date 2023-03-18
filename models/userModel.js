@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'default.jpg'
   },
+  organization:{ type:String},
   country: {
     type: String,
   },
