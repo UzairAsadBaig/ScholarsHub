@@ -61,9 +61,6 @@ export const ViewApplicant = () => {
 
     </Form.Item>
 
-   
-
-  
 
     <Form.Item
     
@@ -138,6 +135,8 @@ export const ViewApplicant = () => {
         <Space >
         <Button onClick={showModal}>Schedule Interview</Button>
         <Button>Chat now</Button>
+        <Button>Hire</Button>
+        <Button>Shortlist</Button>
         <Button>Reject Request</Button>
         </Space>
     </div>
