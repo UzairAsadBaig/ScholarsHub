@@ -20,6 +20,9 @@ applicationRouter
   .route("/startchat/:id")
   .patch(startChat);
 applicationRouter
+  .route("/hire/:id")
+  .patch(startChat);
+applicationRouter
   .route("/:id")
   .delete(deleteApplication)
   .patch(updateApplication);

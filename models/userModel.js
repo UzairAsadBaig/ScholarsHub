@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'default.jpg'
   },
+  organization:{ type:String},
   country: {
     type: String,
   },
@@ -44,6 +45,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['researcher', 'student']
   },
+  wishList: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Job',
+  }],
   researchInterest: [String],
   chats: [{
     type: mongoose.Schema.ObjectId,

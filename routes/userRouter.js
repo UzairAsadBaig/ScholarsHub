@@ -32,6 +32,15 @@ router
 router
   .route('/chatlist/:id')
   .get(userController.getAllChatUser)
+router
+  .route('/wishlist/add/:id')
+  .post(userController.addToWishList)
+router
+  .route('/wishlist/delete/:id')
+  .post(userController.deleteFromWishList)
+  router
+  .route('/wishlist/:id')
+  .get(userController.getWishList)
   router
   .route('/:id')
   .get(userController.getUser)
