@@ -16,7 +16,7 @@ const authController = require("./../controllers/authController");
 const employerRouter = express.Router();
 
 //Optimize:   ***** Routes ******
-employerRouter.post("/signup/employer", authController.signupEmployer);
+employerRouter.post( "/signup/employer", uploadUserPhoto, resizeUserPhoto, authController.signupEmployer );
 employerRouter.post("/login/employer", authController.loginEmployer);
 
 // Protect all routes after this middleware

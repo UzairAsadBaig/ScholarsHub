@@ -66,7 +66,8 @@ app.use('/api/v1/employer', employerRouter)
 app.use('/api/v1/user', userRouter)
 
 //! Settings for Deployment
-//app.use('/image', express.static(path.join(__dirname, 'img')))
+app.use( '/image/user', express.static( path.join( __dirname, 'public', 'user' ) ) )
+app.use( '/image/org', express.static( path.join( __dirname, 'public', 'org' ) ) )
 
 //! Middleware for handling all other(ERROR) unhandled routes
  app.all('*', (req, res, next) => {

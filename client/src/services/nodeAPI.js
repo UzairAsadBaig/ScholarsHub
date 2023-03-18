@@ -27,28 +27,47 @@ export const nodeAPI = createApi({
           authorization: `Bearer ${Cookies.get('jwt')}`
         }
       }),
-      providesTags: [ 'User' ],
+      providesTags: [ 'User', 'Org' ],
     }),   
 
      //********** Login query
-    login: builder.mutation({
+    loginUser: builder.mutation( {
       query: (body) => ({
-        url: "/user/login",
+        url: "/user/login/user",
+        method: "POST",
+        body,
+      }),
+      // invalidatesTags: [ 'User' ],
+    }),
+    //********** Login query
+    loginOrg: builder.mutation( {
+      query: (body) => ({
+        url: "/employer/login/employer",
         method: "POST",
         body,
       }),
       // invalidatesTags: [ 'User' ],
     }),
 
-    //********** Sign up query
-    signup: builder.mutation({
-      query: (body) => ({
-        url: "/user/signup",
+    //********** Sign up User
+    userSignup: builder.mutation( {
+      query: ( body ) => ( {
+        url: "/user/signup/user",
         method: "POST",
         body,
-      }),
-      // invalidatesTags: [ 'User' ],
-    }),
+      } ),
+      invalidatesTags: [ 'User' ],
+    } ),
+    //********** Sign up Organization
+    orgSignup: builder.mutation( {
+      query: ( body ) => ( {
+        url: "/employer/signup/employer",
+        method: "POST",
+        body,
+      } ),
+      invalidatesTags: [ 'Org' ],
+    } ),
+
 
     //********** Send Reset Password Link to Email
     passwordResetEmail: builder.mutation({
@@ -68,14 +87,28 @@ export const nodeAPI = createApi({
         body,
       }),
       // invalidatesTags: [ 'User' ],
-    }),
+    } ),
+    //*********** Get all countries data
+    getAllCountries: builder.query( {
+      query: () => ( {
+        url: 'https://restcountries.com/v2/all',
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } )
+    } ),
   }),
 });
 
 export const {
-  useSignupMutation,
+  useUserSignupMutation,
+  useOrgSignupMutation,
   useLoginMutation,
   usePasswordResetEmailMutation,
   useResetPasswordMutation,
-  useGetAllUsersQuery
+  useGetAllUsersQuery,
+  useGetAllCountriesQuery,
+  useLoginUserMutation,
+  useLoginOrgMutation
 } = nodeAPI;
