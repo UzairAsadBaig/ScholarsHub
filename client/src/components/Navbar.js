@@ -8,8 +8,18 @@ import { Avatar, Divider, Dropdown, message } from 'antd'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { db } from "../firebase";
+import {
+  collection,
+  addDoc,
+  where,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
 
 export const Navbar = props => {
   const [messageApi, contextHolder] = message.useMessage()
@@ -17,26 +27,45 @@ export const Navbar = props => {
   const navigate = useNavigate()
   const { user } = useSelector(state => state.user)
   const [colorChange, setColorchange] = useState(false)
-  const notifications = [
-    {
-      key: '1',
-      label: <>
-      <div style={{ paddingRight:"0.3rem", paddingBlock:"0.4rem", borderBottom:'1px solid rgb(245,245,245)'}}>
-        <h6>Go now</h6>
-        <small>reach foks okasodk</small> <small style={{marginLeft:'4rem', opacity:0.8}}>2h ago</small>
-      </div>
-      </>
-    },
-    {
-      key: '2',
-      label: <>
-      <div style={{ paddingRight:"3rem", paddingBlock:"0.4rem", borderBottom:'1px solid rgb(245,245,245)'}}>
-        <h6>Go now</h6>
-        <small>reach foks okasodk </small>
-      </div>
-      </>
-    }
-  ]
+  const [notification,setNotification] = useState([]);
+  const messagesRef = collection(db, "chats");
+  // const [rooms,setRooms] = useState(user.applications.map((el)=>el.job));
+
+  useEffect(() => {
+    if(!user.applications || !user.applications.length) return
+    const rooms= user.applications.map((el)=>el.job)
+    console.log("rooms",rooms)
+    rooms.forEach((room)=>{
+      const queryMessages = query(
+        messagesRef,
+        where("room", "==", room),
+        orderBy("createdAt")
+      );
+      const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
+        let messages = [];
+        // console.log("snap",snapshot)
+        snapshot.forEach((doc) => {
+          doc = doc.data()
+          console.log("doc",doc)
+          // messages.push({
+          //   key: '1',
+          //   label:( <>
+          //   <div style={{ paddingRight:"0.3rem", paddingBlock:"0.4rem", borderBottom:'1px solid rgb(245,245,245)'}}>
+          //     <h6>{doc.title}</h6>
+          //     <small>{doc.message}</small> <small style={{marginLeft:'4rem', opacity:0.8}}>2h ago</small>
+          //   </div>
+          //   </>)
+          // });
+        });
+        console.log('---------',messages);
+        setNotification(...notification,...messages);
+
+    })
+
+    return () => unsuscribe();
+    });
+
+  }, [user]);
 
   const changeNavbarColor = () => {
     if (window.scrollY >= 80) {
@@ -109,15 +138,18 @@ export const Navbar = props => {
           </div>
 
           <div className='me-1'>
-            <Dropdown
+
+           {notification ? <Dropdown
               menu={{
-                items:notifications
+                items:notification
               }}
             >
               <span>
               <NotificationsNoneIcon />
               </span>
-            </Dropdown>
+            </Dropdown>:  <span>
+              <NotificationsNoneIcon />
+              </span> }
           </div>
           <div className='ms-3'>
             <ChatBubbleOutlineIcon />
