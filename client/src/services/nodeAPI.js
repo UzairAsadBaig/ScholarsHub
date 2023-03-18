@@ -49,6 +49,9 @@ export const nodeAPI = createApi({
         url: "/user/updateMe",
         method: "PATCH",
         body,
+        headers: {
+          authorization: `Bearer ${Cookies.get('jwt')}`
+        }
       }),
       invalidatesTags: [ 'User' ],
     }), 

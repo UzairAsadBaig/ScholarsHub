@@ -182,10 +182,6 @@ export const AddJob=() => {
               </Form.Item>
             </Col>
           </Row>
-
-
-
-
           <Row>
             <Col span={10}>
               <Form.Item

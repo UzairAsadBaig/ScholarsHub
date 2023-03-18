@@ -152,9 +152,9 @@ function App() {
             exact
             path="messenger"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <Messenger/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
           />
         

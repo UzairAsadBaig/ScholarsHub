@@ -1,13 +1,35 @@
 import React from 'react'
-import { Form, Button, Input, Row, Col, Select } from 'antd'
+import { Form, Button, Input, Row, Col, Select, message } from 'antd'
 import { useSelector } from 'react-redux'
+import {useUpdateMeMutation} from '../../services/nodeAPI'
+import { useNavigate } from 'react-router-dom'
 const {TextArea} = Input
 const EditProfile = () => {
+  const [updateMe] = useUpdateMeMutation();
+  const navigate = useNavigate();
   const { user } = useSelector(state => state.user)
+  const [ messageApi, contextHolder ]=message.useMessage();
+
   console.log(user)
-    const onFinish = values => {
-        console.log('Success:', values)
-        let formData = new Form();
+    const onFinish =async values => {
+        const res=await updateMe( {id: user.id, data: values } );
+        console.log(res)
+        if ( res.data&&res.data.status==='success' ) {
+          messageApi.open( {
+            type: 'success',
+            content: 'Profile updated successfully!',
+          } );
+    
+          setTimeout( () => {
+            navigate( '/dashboard/setting' )
+          }, 1000 )
+        }
+        else {
+          messageApi.open( {
+            type: 'error',
+            content: 'Something went wrong!',
+          } );
+        }
       }
     
       const onChange = value => {
@@ -17,7 +39,9 @@ const EditProfile = () => {
         console.log('search:', value)
       }
   return (
+    
     <div>
+    {contextHolder}
       <div id='details'>
         <div className='mt-5'>
           <p className='text-xl font-medium dark:text-white'>Profile Details</p>
@@ -64,7 +88,7 @@ const EditProfile = () => {
                 name='email'
                 rules={[
                   {
-                    validator: 'email'
+                    type: 'email'
 
                   }
                 ]}
