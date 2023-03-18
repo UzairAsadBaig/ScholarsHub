@@ -99,7 +99,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 exports.getAllEmployer=factory.getAll( Employer );
 
 // Optimize: get single data basaed on id
-exports.getSingleEmployer=factory.getOne( Employer );
+exports.getSingleEmployer=factory.getOne( Employer , { path: 'Job' } );
 
 // Optimize: Create  
 exports.createEmployer=factory.createOne( Employer );

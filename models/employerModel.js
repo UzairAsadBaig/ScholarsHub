@@ -74,6 +74,21 @@ const employerSchema = new mongoose.Schema({
     default: true,
     select: false
   }
+},
+{
+  // TO SEE VIRTUAL FIELDS
+  toJSON: {
+    virtuals: true,
+  },
+  toObject: {
+    virtuals: true,
+  },
+});
+
+employerSchema.virtual('job', {
+  ref: 'Job',
+  foreignField: 'employer',
+  localField: '_id',
 });
 
 employerSchema.pre('save', async function(next) {
