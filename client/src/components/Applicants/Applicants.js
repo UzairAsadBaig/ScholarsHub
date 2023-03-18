@@ -7,9 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useGetAllApplicationsByEmpQuery } from '../../services/nodeAPI';
 
 export const Applicants = () => {
-    const navigate = useNavigate()
-    const {data: apps} = useGetAllApplicationsByEmpQuery();
-    apps&& console.log(apps)
+    const navigate = useNavigate();
+    const {data: apps, isLoading} = useGetAllApplicationsByEmpQuery();
     const columns = [
         {
           title: 'Applicant Name',
@@ -39,20 +38,23 @@ export const Applicants = () => {
         {
           title: 'Action',
           key: 'action',
-          render: (_, record) => (
-            <div>
-                <span onClick={()=>navigate('/dashboard/applicants/view')}><VisibilityIcon/></span>&nbsp;
-                <span><CloseIcon/></span>
-            </div>
-          ),
+          render: (_, record) =>  {
+            return (
+              <div>
+                  <span onClick={()=>navigate(`/dashboard/applicants/view/${record.id}`)}><VisibilityIcon/></span>&nbsp;
+                  <span><CloseIcon/></span>
+              </div>
+            )
+          }
         },
       ];
       let data =[]
-      if(apps)
+      if(apps && !isLoading)
       {
          data = apps.data.map((app)=>{
             return {
               key: '1',
+              id: app._id,
               name: app.applicant.name,
               email: app.applicant.email,
               appliedOn:app.applicant.date,
@@ -65,7 +67,7 @@ export const Applicants = () => {
         <div>
         <PageHeader heading="Applicants" subHeading="You can find all applicants of job here"/>
         <div>
-        {apps && 
+        {apps && !isLoading &&
         <Table columns={columns} dataSource={data} />
         
         }

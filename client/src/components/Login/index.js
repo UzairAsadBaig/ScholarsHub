@@ -26,8 +26,6 @@ const LoginForm=() => {
   const onFinish=async values => {
     const userRes=await loginUser( values );
     const orgRes=await loginOrg( values );
-    console.log( "USER RESPONSE:", userRes );
-    console.log( "Org RESPONSE:", orgRes );
     if ( userRes.data&&userRes.data.status==='success' ) {
       messageApi.open( {
         type: 'success',

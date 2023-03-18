@@ -14,8 +14,8 @@ const applicationRouter = express.Router();
 //Optimize:   ***** Routes ******
 
 applicationRouter.route("/").get(getAllApplication).post(createApplication);
-applicationRouter.route("user/:id").get(getSingleApplicationForUser);
-applicationRouter.route("employer/:id").get(getSingleApplicationForEmployer);
+applicationRouter.route("/user/:id").get(getSingleApplicationForUser);
+applicationRouter.route("/employer/:id").get(getSingleApplicationForEmployer);
 applicationRouter
   .route("/startchat/:id")
   .patch(startChat);

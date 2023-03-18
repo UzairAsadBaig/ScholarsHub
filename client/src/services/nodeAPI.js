@@ -25,7 +25,6 @@ export const nodeAPI = createApi({
     getAllChatUsers: builder.query({
       
       query: (body) => {
-        console.log('yaha dekho',body)
         return({
         url: `/${(body.role=='student' || body.role=='researcher')? 'user' : 'employer'}/chatlist/${body._id}`,
         method: "GET",
@@ -41,6 +40,14 @@ export const nodeAPI = createApi({
       query: (body) => ({
         url: "/user/login/user",
         method: "POST",
+        body,
+      }),
+      invalidatesTags: [ 'User' ],
+    }),
+    updateMe: builder.mutation( {
+      query: (body) => ({
+        url: "/user/updateMe",
+        method: "PATCH",
         body,
       }),
       invalidatesTags: [ 'User' ],
@@ -97,6 +104,13 @@ export const nodeAPI = createApi({
     getAllApplicationsByEmp: builder.query({
       query: () => ({
         url: "/application",
+        method: "GET",
+      }),
+      providesTags: [ 'Applications' ],
+    } ), 
+    getSingleApplicationByEmployer: builder.query({
+      query: (id) => ({
+        url: `/application/employer/${id}`,
         method: "GET",
       }),
       providesTags: [ 'Applications' ],
@@ -219,5 +233,6 @@ export const {
   useGetAllApplicationsByEmpQuery,
   useGetAllJobsEmpQuery,
   useAddJobToWishListMutation,
-  useGetAllWishListJobsQuery
+  useGetAllWishListJobsQuery,
+  useGetSingleApplicationByEmployerQuery
 } = nodeAPI;

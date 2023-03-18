@@ -107,7 +107,7 @@ exports.getAllApplication=factory.getAll( Application ,{path:'applicant job'});
 // Optimize: get single data basaed on id
 exports.getSingleApplicationForUser=factory.getOne( Application ,{path:'job'} );
 // Optimize: get single data basaed on id
-exports.getSingleApplicationForEmployer=factory.getOne( Application,{path:'applicant'} );
+exports.getSingleApplicationForEmployer=factory.getOne( Application,{path:'applicant job'} );
 
 // Optimize: Create  
 exports.createApplication=factory.createOne( Application );

@@ -11,6 +11,4 @@ const Spinner=( { marginTop="12rem", size="large" } ) => {
     </div>
   )
 }
-
-
 export default Spinner

@@ -110,7 +110,7 @@ function App() {
           />
           <Route
             exact
-            path="applicants/view"
+            path="applicants/view/:appId"
             element={
               // <ProtectedRoute>
                 <ViewApplicant/>

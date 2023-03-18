@@ -24,7 +24,6 @@ export default function Messenger() {
   const user = useSelector(state => state.user.user)
   const {data,isLoading, error} = useGetAllChatUsersQuery(user);
 
-  console.log(data, error)
   const [room, setRoom] = useState(null);
   function createRoomID(str1, str2) {
     const combinedString = str1.concat(str2);

@@ -1,9 +1,12 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
 import { Descriptions } from "antd";
+import { useSelector } from "react-redux";
 
 
 const ViewProfile = () => {
+  const { user } = useSelector(state => state.user)
+
 
   return (
     <div id="details">
@@ -26,7 +29,7 @@ const ViewProfile = () => {
             <div className="d-flex">
               <div className="">
                 <Avatar
-                 
+                  src={'localhost:3001/img/users/'+user.photo}
                   sx={{ width: 100, height: 100 }}
                   style={{ marginTop: "" }}
                 />
@@ -51,17 +54,22 @@ const ViewProfile = () => {
         </div>
         <div>
         <Descriptions layout="vertical" bordered>
-    <Descriptions.Item label="Username">test</Descriptions.Item>
-    <Descriptions.Item label="Email">t@t.com</Descriptions.Item>
-    <Descriptions.Item label="Phone">090909</Descriptions.Item>
-    <Descriptions.Item label="Country">Pakistan</Descriptions.Item>
-    <Descriptions.Item label="Skills">Skills</Descriptions.Item>
-    <Descriptions.Item label="Degree">BSSE</Descriptions.Item>
-    <Descriptions.Item label="Institute">PUCIT</Descriptions.Item>
-    <Descriptions.Item label="Skills">web</Descriptions.Item>
-    <Descriptions.Item label="Language">Eng</Descriptions.Item>
-  
-    
+    <Descriptions.Item label="Username">{user.name}</Descriptions.Item>
+    <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
+    <Descriptions.Item label="Phone">{user.phone}</Descriptions.Item>
+    <Descriptions.Item label="Country">{user.country}</Descriptions.Item>
+    {user.role !== 'organization' ?<Descriptions.Item label="Skills">{user.skills}</Descriptions.Item>: ''}
+    {user.role === 'organization' ? <>
+    <Descriptions.Item label="Website">{user.website}</Descriptions.Item>
+    <Descriptions.Item label="About">{user.about}</Descriptions.Item>
+    </>
+    : 
+    <>
+    <Descriptions.Item label="Degree">{user.educaiton.degree}</Descriptions.Item>
+    <Descriptions.Item label="Institute">{user.educaiton.institute}</Descriptions.Item>
+    <Descriptions.Item label="Language">{user.language}</Descriptions.Item></>}
+    <Descriptions.Item label="Address">{user.address}</Descriptions.Item>
+
   </Descriptions>
         </div>
 

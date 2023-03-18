@@ -1,7 +1,10 @@
 import React from 'react'
 import { Form, Button, Input, Row, Col, Select } from 'antd'
-const { TextArea } = Input
+import { useSelector } from 'react-redux'
+const {TextArea} = Input
 const EditProfile = () => {
+  const { user } = useSelector(state => state.user)
+  console.log(user)
     const onFinish = values => {
         console.log('Success:', values)
       }
@@ -28,7 +31,17 @@ const EditProfile = () => {
       <Form
           name='basic'
           initialValues={{
-            remember: true
+            name:user.name,
+            email: user.email,
+            phone: user.phone,
+            website: user.website,
+            country: user.country,
+            about: user.about,
+            type: user.type,
+            language: user.language,
+            domain: user.domain,
+            address: user.address
+
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -40,12 +53,7 @@ const EditProfile = () => {
               <Form.Item
                 label='Name'
                 name='name'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input name!'
-                  }
-                ]}
+
               >
                 <Input />
               </Form.Item>
@@ -57,8 +65,6 @@ const EditProfile = () => {
                 name='email'
                 rules={[
                   {
-                    required: true,
-                    message: 'Please input email!',
                     validator: 'email'
 
                   }
@@ -72,13 +78,8 @@ const EditProfile = () => {
             <Col span={21}>
               <Form.Item
                 label='Phone No.'
-                name='jobDesc'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input phone!'
-                  }
-                ]}
+                name='phone'
+               
               >
                 <Input />
               </Form.Item>
@@ -91,30 +92,28 @@ const EditProfile = () => {
               <Form.Item
                 label='Country'
                 name='country'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input country!'
-                  }
-                ]}
+               
               >
                 <Input />
               </Form.Item>
             </Col> 
             <Col span={1}></Col>
             <Col span={10}>
+            {user.role !== 'organization' ?
               <Form.Item
                 label='Skills'
-                name='jobInst'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input skills!'
-                  }
-                ]}
+                name='skills'
+                
               >
                 <Input />
               </Form.Item>
+            : <Form.Item
+            label='Website'
+            name='website'
+           
+          >
+            <Input />
+          </Form.Item>}
             </Col>
           </Row>
 
@@ -123,63 +122,92 @@ const EditProfile = () => {
 
           <Row>
             <Col span={10}>
+             {user.role !== 'organization'? 
               <Form.Item
-                label='Language'
-                name='language'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input language!'
-                  }
-                ]}
-              >
-               <Input/>
-              </Form.Item>
+              label='Language'
+              name='language'
+              
+            >
+             <Input/>
+            </Form.Item>:
+             <Form.Item
+             label='About'
+             name='about'
+             
+           >
+            <TextArea row={3}/>
+           </Form.Item>}
             </Col>
             <Col span={1}></Col>
             <Col span={10}>
-            <Form.Item
-                label='Research Interests'
-                name='domain'
-                rules={[
+           
+              {user.role !== 'organization'? 
+              <Form.Item
+              label='Research Interests'
+              name='domain'
+             
+            >
+              <Select
+              defaultValue={user.domain}
+              mode='multiple'
+                showSearch
+                placeholder='Select research interests'
+                optionFilterProp='children'
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={[
                   {
-                    required: true,
-                    message: 'Please input job research interests!'
+                    value: 'web',
+                    label: 'PHD position'
+                  },
+                  {
+                    value: 'app',
+                    label: 'Research grant'
+                  },
+                  {
+                    value: '',
+                    label: 'Research Engineer'
                   }
                 ]}
-              >
-                <Select
-                mode='multiple'
-                  showSearch
-                  placeholder='Select research interests'
-                  optionFilterProp='children'
-                  onChange={onChange}
-                  onSearch={onSearch}
-                  filterOption={(input, option) =>
-                    (option?.label ?? '')
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={[
-                    {
-                      value: 'web',
-                      label: 'PHD position'
-                    },
-                    {
-                      value: 'app',
-                      label: 'Research grant'
-                    },
-                    {
-                      value: '',
-                      label: 'Research Engineer'
-                    }
-                  ]}
-                />
-              </Form.Item>
+              />
+            </Form.Item>:
+             <Form.Item
+             label='Type'
+             name='type'
+             
+           >
+            <Select    options={[
+       
+        {
+          value: 'private',
+          label: 'Private',
+        },
+        {
+          value: 'public',
+          label: 'Public',
+        },
+      ]}/>
+           </Form.Item>}
             </Col>
           </Row>
 
-          
+        <Row
+        >
+          <Col span={21}>
+          <Form.Item
+             label='Address'
+             name='address'
+             
+           >
+            <TextArea row={3}/>
+           </Form.Item>
+          </Col>
+        </Row>
 
           <Form.Item style={{marginTop:'2rem'}}>
             <Button type='primary' htmlType='submit' size='large'>
