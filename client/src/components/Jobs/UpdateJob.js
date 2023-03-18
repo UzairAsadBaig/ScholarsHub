@@ -1,41 +1,89 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageHeader } from '../Generic/PageHeader'
-import { Form, Button, Input, Row, Col, Select } from 'antd'
-const { TextArea } = Input
+import { Form, Button, Input, Row, Col, Select, message } from 'antd'
+import { useSelector } from 'react-redux';
+import { useGetAllCountriesQuery, useGetJobQuery, useUpdateJobMutation } from '../../services/nodeAPI';
+import { useNavigate, useParams } from 'react-router-dom';
+import Spinner from '../Spinner';
+const { TextArea }=Input
+const { Option }=Select
 
-export const UpdateJob = () => {
+export const UpdateJob=() => {
 
-    const onChange = value => {
-        console.log(`selected ${value}`)
-      }
-      const onSearch = value => {
-        console.log('search:', value)
-      }
-      const onFinish = values => {
-        console.log('Success:', values)
-      }
-      const onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo)
-      }
-    return (
-        <div>
+  let { jobId }=useParams();
+  const [ countries, setCountries ]=useState( null )
+  const { data: countriesData }=useGetAllCountriesQuery()
+  const [ messageApi, contextHolder ]=message.useMessage();
+
+  const [ updateJob ]=useUpdateJobMutation();
+  console.log( 'PARAM:', jobId );
+  const { data, error, isLoading }=useGetJobQuery( { jobId } );
+  const { user }=useSelector( state => state.user );
+  const navigate=useNavigate()
+  const onChange=value => {
+    console.log( `selected ${value}` )
+  }
+  const onSearch=value => {
+    console.log( 'search:', value )
+  }
+  const onFinish=async ( values ) => {
+    const res=await updateJob( { id: jobId, data: values } );
+    if ( res.data&&res.data.status==='success' ) {
+      messageApi.open( {
+        type: 'success',
+        content: 'Job updated successfully!',
+      } );
+
+      setTimeout( () => {
+        navigate( '/dashboard/jobs' )
+      }, 1000 )
+    }
+    else {
+      messageApi.open( {
+        type: 'error',
+        content: 'Something went wrong!',
+      } );
+    }
+  }
+  const onFinishFailed=errorInfo => {
+    console.log( 'Failed:', errorInfo )
+  }
+  useEffect( () => {
+    let _Countries=[]
+    countriesData&&
+      countriesData.map( el => {
+        return _Countries.push( {
+          value: el.name.toLowerCase(),
+          label: el.name
+        } )
+      } )
+    setCountries( _Countries )
+  }, [ countriesData ] )
+
+  if ( isLoading )
+    return <Spinner />
+  return (
+    <>
+      {contextHolder}
+      <div>
         <PageHeader heading='Update Job' subHeading='You can update job here' />
         <div>
-          <Form
+          {countries&&<Form
             name='basic'
             initialValues={{
-              remember: true
+              ...data.data
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete='off'
             layout='vertical'
+
           >
             <Row>
               <Col span={10}>
                 <Form.Item
                   label='Job Title'
-                  name='jobTitle'
+                  name='title'
                   rules={[
                     {
                       required: true,
@@ -43,14 +91,14 @@ export const UpdateJob = () => {
                     }
                   ]}
                 >
-                  <Input />
+                  <Input defaultValue={data.data.title} />
                 </Form.Item>
               </Col>
               <Col span={1}></Col>
               <Col span={10}>
                 <Form.Item
                   label='Research Interests'
-                  name='researchInt'
+                  name='domain'
                   rules={[
                     {
                       required: true,
@@ -59,29 +107,30 @@ export const UpdateJob = () => {
                   ]}
                 >
                   <Select
-                  mode='multiple'
+                    mode='multiple'
                     showSearch
                     placeholder='Select research interests'
                     optionFilterProp='children'
+                    defaultValue={data.data.domain}
                     onChange={onChange}
                     onSearch={onSearch}
-                    filterOption={(input, option) =>
-                      (option?.label ?? '')
+                    filterOption={( input, option ) =>
+                      ( option?.label??'' )
                         .toLowerCase()
-                        .includes(input.toLowerCase())
+                        .includes( input.toLowerCase() )
                     }
                     options={[
                       {
                         value: 'web',
-                        label: 'Web'
+                        label: 'PHD position'
                       },
                       {
                         value: 'app',
-                        label: 'App'
+                        label: 'Research grant'
                       },
                       {
-                        value: 'ml',
-                        label: 'ML'
+                        value: '',
+                        label: 'Research Engineer'
                       }
                     ]}
                   />
@@ -92,7 +141,7 @@ export const UpdateJob = () => {
               <Col span={21}>
                 <Form.Item
                   label='Job Description'
-                  name='jobDesc'
+                  name='description'
                   rules={[
                     {
                       required: true,
@@ -100,17 +149,17 @@ export const UpdateJob = () => {
                     }
                   ]}
                 >
-                  <TextArea maxLength={12} rows={5} />
+                  <TextArea defaultValue={data.data.description} maxLength={12} rows={5} />
                 </Form.Item>
               </Col>
             </Row>
-  
-  
+
+
             <Row>
               <Col span={10}>
                 <Form.Item
                   label='Job Requirements'
-                  name='jobReq'
+                  name='requirements'
                   rules={[
                     {
                       required: true,
@@ -118,14 +167,14 @@ export const UpdateJob = () => {
                     }
                   ]}
                 >
-                  <TextArea maxLength={10} rows={3} />
+                  <TextArea defaultValue={data.data.requirement} maxLength={10} rows={3} />
                 </Form.Item>
-              </Col> 
+              </Col>
               <Col span={1}></Col>
               <Col span={10}>
                 <Form.Item
                   label='Job Instructions'
-                  name='jobInst'
+                  name='instructions'
                   rules={[
                     {
                       required: true,
@@ -133,19 +182,19 @@ export const UpdateJob = () => {
                     }
                   ]}
                 >
-                  <TextArea maxLength={10} rows={3} />
+                  <TextArea defaultValue={data.data.instructions} maxLength={10} rows={3} />
                 </Form.Item>
               </Col>
             </Row>
-  
-  
-  
-  
+
+
+
+
             <Row>
               <Col span={10}>
                 <Form.Item
                   label='Job Type'
-                  name='jobType'
+                  name='oppType'
                   rules={[
                     {
                       required: true,
@@ -159,10 +208,11 @@ export const UpdateJob = () => {
                     optionFilterProp='children'
                     onChange={onChange}
                     onSearch={onSearch}
-                    filterOption={(input, option) =>
-                      (option?.label ?? '')
+                    defaultValue={data.data.oppType}
+                    filterOption={( input, option ) =>
+                      ( option?.label??'' )
                         .toLowerCase()
-                        .includes(input.toLowerCase())
+                        .includes( input.toLowerCase() )
                     }
                     options={[
                       {
@@ -186,49 +236,34 @@ export const UpdateJob = () => {
                 <Form.Item
                   label='Country'
                   name='country'
+                  hasFeedback
                   rules={[
                     {
                       required: true,
-                      message: 'Please input country!'
+                      message: 'Please select country!'
                     }
                   ]}
                 >
-                  <Select
-                    showSearch
-                    placeholder='Select country'
-                    optionFilterProp='children'
-                    onChange={onChange}
-                    onSearch={onSearch}
-                    filterOption={(input, option) =>
-                      (option?.label ?? '')
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                    }
-                    options={[
-                      {
-                        value: 'pak',
-                        label: 'Pakistan'
-                      },
-                      {
-                        value: 'ind',
-                        label: 'India'
-                      }
-                    ]}
-                  />
+                  <Select showSearch defaultValue={data.data.country} placeholder='Select country'>
+                    {countries.map( ( el, i ) => (
+                      <Option key={i} value={el.value}>
+                        {el.label}
+                      </Option>
+                    ) )}
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
-  
-            
-  
-            <Form.Item style={{marginTop:'2rem'}}>
+
+            <Form.Item style={{ marginTop: '2rem' }}>
               <Button type='primary' htmlType='submit' size='large'>
-                Submit
+                Update
               </Button>
             </Form.Item>
-          </Form>
+          </Form>}
         </div>
       </div>
-    );
+    </>
+  );
 }
 

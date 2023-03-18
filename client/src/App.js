@@ -76,7 +76,7 @@ function App() {
           />
            <Route
             exact
-            path="jobs/view"
+            path="jobs/view/:jobId"
             element={
               // <ProtectedRoute>
                 <ViewJob/>
@@ -85,7 +85,7 @@ function App() {
           />
           <Route
             exact
-            path="jobs/edit"
+            path="jobs/edit/:jobId"
             element={
               // <ProtectedRoute>
                 <UpdateJob/>

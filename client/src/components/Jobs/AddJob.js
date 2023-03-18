@@ -1,26 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { PageHeader } from '../Generic/PageHeader'
-import { Form, Button, Input, Row, Col, Select } from 'antd'
+import { Form, Button, Input, Row, Col, Select, message } from 'antd'
+import { useCreateJobMutation, useGetAllCountriesQuery } from '../../services/nodeAPI'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 const { TextArea } = Input
+const { Option }=Select
 
-export const AddJob = () => {
-  const onChange = value => {
-    console.log(`selected ${value}`)
+export const AddJob=() => {
+  const [ createJob ]=useCreateJobMutation();
+  const [ form ]=Form.useForm()
+  const [ messageApi, contextHolder ]=message.useMessage();
+  const { data: countriesData }=useGetAllCountriesQuery()
+  const [ countries, setCountries ]=useState( null )
+  const { user }=useSelector( state => state.user );
+  const navigate=useNavigate();
+  const onChange=value => {
+    console.log( `selected ${value}` )
   }
   const onSearch = value => {
     console.log('search:', value)
   }
-  const onFinish = values => {
-    console.log('Success:', values)
+  const onFinish=async ( values ) => {
+    let data={ ...values }
+    data.employer=user._id;
+    data.oppType=values.jobType;
+    console.log( 'SUCCESS:', data )
+    const res=await createJob( data );
+    console.log( 'RESPONSE:', res );
+    if ( res.data&&res.data.status==='success' ) {
+      messageApi.open( {
+        type: 'success',
+        content: 'Job added successfully!',
+      } );
+      form.resetFields();
+      setTimeout( () => {
+        navigate( '/dashboard/jobs' )
+      }, 1000 )
+    }
+    else {
+      messageApi.open( {
+        type: 'error',
+        content: 'SOmething went wrong!',
+      } );
+    }
   }
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo)
   }
+
+  useEffect( () => {
+    let _Countries=[]
+    countriesData&&
+      countriesData.map( el => {
+        return _Countries.push( {
+          value: el.name.toLowerCase(),
+          label: el.name
+        } )
+      } )
+    setCountries( _Countries )
+  }, [ countriesData ] )
   return (
+    <>
+      {contextHolder}
     <div>
       <PageHeader heading='Add Job' subHeading='You can add job here' />
       <div>
-        <Form
+          {countries&&<Form
           name='basic'
           initialValues={{
             remember: true
@@ -34,7 +80,7 @@ export const AddJob = () => {
             <Col span={10}>
               <Form.Item
                 label='Job Title'
-                name='jobTitle'
+                  name='title'
                 rules={[
                   {
                     required: true,
@@ -49,7 +95,7 @@ export const AddJob = () => {
             <Col span={10}>
               <Form.Item
                 label='Research Interests'
-                name='researchInt'
+                  name='domain'
                 rules={[
                   {
                     required: true,
@@ -91,7 +137,7 @@ export const AddJob = () => {
             <Col span={21}>
               <Form.Item
                 label='Job Description'
-                name='jobDesc'
+                  name='description'
                 rules={[
                   {
                     required: true,
@@ -109,7 +155,7 @@ export const AddJob = () => {
             <Col span={10}>
               <Form.Item
                 label='Job Requirements'
-                name='jobReq'
+                  name='requirements'
                 rules={[
                   {
                     required: true,
@@ -124,7 +170,7 @@ export const AddJob = () => {
             <Col span={10}>
               <Form.Item
                 label='Job Instructions'
-                name='jobInst'
+                  name='instructions'
                 rules={[
                   {
                     required: true,
@@ -185,35 +231,21 @@ export const AddJob = () => {
               <Form.Item
                 label='Country'
                 name='country'
+                  hasFeedback
                 rules={[
                   {
                     required: true,
-                    message: 'Please input country!'
+                    message: 'Please select country!'
                   }
                 ]}
               >
-                <Select
-                  showSearch
-                  placeholder='Select country'
-                  optionFilterProp='children'
-                  onChange={onChange}
-                  onSearch={onSearch}
-                  filterOption={(input, option) =>
-                    (option?.label ?? '')
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={[
-                    {
-                      value: 'pak',
-                      label: 'Pakistan'
-                    },
-                    {
-                      value: 'ind',
-                      label: 'India'
-                    }
-                  ]}
-                />
+                  <Select showSearch placeholder='Select country'>
+                    {countries.map( ( el, i ) => (
+                      <Option key={i} value={el.value}>
+                        {el.label}
+                      </Option>
+                    ) )}
+                  </Select>
               </Form.Item>
             </Col>
           </Row>
@@ -225,8 +257,10 @@ export const AddJob = () => {
               Submit
             </Button>
           </Form.Item>
-        </Form>
+          </Form>}
       </div>
-    </div>
+      </div>
+    </>
+
   )
 }

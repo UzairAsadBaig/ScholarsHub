@@ -12,7 +12,5 @@ const Spinner=( { marginTop="12rem", size="large" } ) => {
   )
 }
 
-{/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh', width: '100%', color: 'white', fontWeight: 'bold' }}>
-  <Spin size="large" tip="Loading..." style={{ color: '#265bc4' }} />
-</div> */}
+
 export default Spinner

@@ -12,7 +12,8 @@ export const nodeAPI = createApi({
   // Entities of API
   tagTypes: [
     "User",
-    "Employee",
+    "Org",
+    "Job"
   ],
 
   endpoints: (builder) => ({
@@ -27,7 +28,7 @@ export const nodeAPI = createApi({
           authorization: `Bearer ${Cookies.get('jwt')}`
         }
       }),
-      providesTags: [ 'User', 'Org' ],
+      providesTags: [ 'User' ],
     }),   
 
      //********** Login query
@@ -37,7 +38,7 @@ export const nodeAPI = createApi({
         method: "POST",
         body,
       }),
-      // invalidatesTags: [ 'User' ],
+      invalidatesTags: [ 'User' ],
     }),
     //********** Login query
     loginOrg: builder.mutation( {
@@ -46,7 +47,7 @@ export const nodeAPI = createApi({
         method: "POST",
         body,
       }),
-      // invalidatesTags: [ 'User' ],
+      invalidatesTags: [ 'Org' ],
     }),
 
     //********** Sign up User
@@ -98,6 +99,63 @@ export const nodeAPI = createApi({
         }
       } )
     } ),
+    //********** Create Job by Org
+    createJob: builder.mutation( {
+      query: ( body ) => ( {
+        url: "/job",
+        method: "POST",
+        body,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      invalidatesTags: [ 'Job' ],
+    } ),
+    //********** Get All jobs
+    getAllJobs: builder.query( {
+      query: ( body ) => ( {
+        url: "/job/",
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      providesTags: [ 'Job' ],
+    } ),
+    //********** Get single job
+    getJob: builder.query( {
+      query: ( body ) => ( {
+        url: `/job/${body.jobId}`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      providesTags: [ 'Job' ],
+    } ),
+    updateJob: builder.mutation( {
+      query: ( body ) => ( {
+        url: `/job/${body.id}`,
+        method: "PATCH",
+        body: body.data,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      invalidatesTags: [ 'Job' ],
+    } ),
+    deleteJob: builder.mutation( {
+      query: ( body ) => ( {
+        url: `/job/${body}`,
+        method: "DELETE",
+        body: body.data,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      invalidatesTags: [ 'Job' ],
+    } )
+
   }),
 });
 
@@ -110,5 +168,10 @@ export const {
   useGetAllUsersQuery,
   useGetAllCountriesQuery,
   useLoginUserMutation,
-  useLoginOrgMutation
+  useLoginOrgMutation,
+  useCreateJobMutation,
+  useGetAllJobsQuery,
+  useGetJobQuery,
+  useUpdateJobMutation,
+  useDeleteJobMutation
 } = nodeAPI;
