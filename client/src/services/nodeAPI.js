@@ -15,6 +15,7 @@ export const nodeAPI = createApi({
     "Org",
     "Job",
     "Applications",
+    "WL"
   ],
 
   endpoints: (builder) => ({
@@ -177,6 +178,16 @@ export const nodeAPI = createApi({
       } ),
       invalidatesTags: [ 'Job' ],
     } ),
+    addJobToWishList: builder.mutation( {
+      query: ( body ) => ( {
+        url: `/user/wishlist/add/${body.userId}`,
+        method: "POST",
+        body: body.data,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+    } ),
   }),
 });
 
@@ -196,5 +207,6 @@ export const {
   useUpdateJobMutation,
   useDeleteJobMutation,
   useGetAllApplicationsByEmpQuery,
-  useGetAllJobsEmpQuery
+  useGetAllJobsEmpQuery,
+  useAddJobToWishListMutation,
 } = nodeAPI;

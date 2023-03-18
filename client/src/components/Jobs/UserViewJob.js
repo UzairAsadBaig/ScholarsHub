@@ -3,13 +3,22 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Card, Row,Col, Divider,Modal, Tag, Button, Space, Input, Form, Upload} from 'antd';
 import { Stack, Typography , Box} from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { useGetJobQuery } from '../../services/nodeAPI';
+import { useAddJobToWishListMutation, useGetJobQuery } from '../../services/nodeAPI';
 import Spinner from '../Spinner';
+import { useSelector } from 'react-redux';
 const {TextArea }= Input
 export const UserViewJob=() => {
   let { jobId }=useParams();
   const { data, error, isLoading }=useGetJobQuery( { jobId } );
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ addJobToWishList ]=useAddJobToWishListMutation();
+
+  const [ isModalOpen, setIsModalOpen ]=useState( false );
+  const { user }=useSelector( state => state.user );
+  const handleWishList=async ( id ) => {
+    const res=await addJobToWishList( { userId: user._id, data: { jobid: id } } );
+    console.log( 'Res', { userId: user.id, data: { jobid: id } }, res );
+
+  }
     const onFinish = (values) => {
         console.log('Success:', values);
       };

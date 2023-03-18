@@ -3,13 +3,21 @@ import { Card, Col, Input, Row, Tag, Button } from 'antd';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { PageHeader } from '../Generic/PageHeader';
 import { useNavigate } from 'react-router-dom';
-import { useGetAllJobsQuery } from '../../services/nodeAPI';
+import { useAddJobToWishListMutation, useGetAllJobsQuery } from '../../services/nodeAPI';
 import Spinner from '../Spinner';
+import { useSelector } from 'react-redux';
 const { Search }=Input;
 
 export const ViewUserJobs=() => {
     const navigate=useNavigate()
+    const [ addJobToWishList ]=useAddJobToWishListMutation();
     const onSearch=( value ) => console.log( value );
+    const { user }=useSelector( state => state.user );
+    const handleWishList=async ( id ) => {
+        const res=await addJobToWishList( { userId: user._id, data: { jobid: id } } );
+        console.log( 'Res', { userId: user.id, data: { jobid: id } }, res );
+
+    }
 
     const { data, error, isLoading }=useGetAllJobsQuery();
     if ( isLoading&&!data )
@@ -26,13 +34,13 @@ export const ViewUserJobs=() => {
                     <h2>Jobs you might like</h2>
                     <div className='mt-10'>
                         {data.data.map( ( el, i ) => {
-                            return ( <Card key={i} className='mt-3' onClick={() => { navigate( `/dashboard/user/jobs/view/${el.id}` ) }}>
+                            return ( <Card key={i} className='mt-3'>
                                 <Row>
                                     <Col span={22}>
 
-                                        <h3>{el.title}</h3>
+                                        <h3 style={{ cursor: 'pointer' }} onClick={() => { navigate( `/dashboard/user/jobs/view/${el.id}` ) }}>{el.title}</h3>
                                     </Col>
-                                    <Col span={2}><Button>Add to wishlist</Button></Col>
+                                    <Col span={2}><Button onClick={() => handleWishList( el.id )}>Add to wishlist</Button></Col>
                                 </Row>
                                 <span>{el.employer.name}</span> - <small>{el.date}</small>
                                 <div style={{ paddingBlock: '1rem' }}>
