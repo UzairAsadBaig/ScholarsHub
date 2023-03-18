@@ -10,6 +10,7 @@ const {
   uploadUserPhoto,
   resizeUserPhoto,
   updateMe,
+  getAllChatUser
 } = require("../controllers/employerController");
 const authController = require("./../controllers/authController");
 
@@ -28,7 +29,9 @@ employerRouter.delete("/deleteMe", deleteMe);
 
 employerRouter.route("/").get(getAllEmployer).post(createEmployer);
 
-employerRouter
+employerRouter.route('/chatlist/:id')
+    .get(getAllChatUser)
+  employerRouter
   .route("/:id")
   .get(getSingleEmployer)
   .delete(deleteEmployer)

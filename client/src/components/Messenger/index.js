@@ -15,14 +15,15 @@ import {
 import jwt_decode from "jwt-decode";
 import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
-import { useGetAllUsersQuery } from '../../services/nodeAPI';
+import { useGetAllChatUsersQuery } from '../../services/nodeAPI';
 
 export default function Messenger() {
   const messagesRef = collection(db, "chats");
   const [messages,setMessages] = useState([]);
   const [currentReceiver,setCurrentReceiver] = useState(null);
   const user = useSelector(state => state.user.user)
-  const {data,isLoading, error} = useGetAllUsersQuery();
+  const {data,isLoading, error} = useGetAllChatUsersQuery(user);
+
   console.log(data, error)
   const [room, setRoom] = useState(null);
   function createRoomID(str1, str2) {
@@ -57,7 +58,7 @@ export default function Messenger() {
     return (
       <div className="messenger">
         <div className="scrollable sidebar">
-          {!isLoading && <ConversationList users={data} setCurrentReceiver={setCurrentReceiver} />}
+          {!isLoading && <ConversationList users={data.data.user.chats} setCurrentReceiver={setCurrentReceiver} />}
         </div>
 
         <div className="scrollable content">

@@ -13,12 +13,11 @@ export default function ConversationList({users,setCurrentReceiver}) {
     getConversations()
   },[])
  const getConversations = () => {
-  let newConversations = users.data.map(result => {
+  let newConversations = users.map(result => {
     // console.log(result)
     return {
-      photo: 'https://thumbs.dreamstime.com/z/creative-vector-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mo-107388687.jpg',
+      photo: `${result.photo}`,
       name: `${result.name}`,
-      text: 'Hello world!',
       id:result._id
     };
   });

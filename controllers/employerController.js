@@ -85,6 +85,20 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+
+
+exports.getAllChatUser = catchAsync(async (req, res, next) => {
+ 
+  let users = (await Employer.findById(req.params.id,'chats').populate({path:'chats'})).toObject();
+  console.log(users)
+ res.status(200).json({
+   status: 'success',
+   data: {
+     user: users
+   }
+ });
+});
+
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await Employer.findByIdAndUpdate(req.user.id, { active: false });
 
@@ -99,7 +113,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 exports.getAllEmployer=factory.getAll( Employer );
 
 // Optimize: get single data basaed on id
-exports.getSingleEmployer=factory.getOne( Employer , { path: 'Job' } );
+exports.getSingleEmployer=factory.getOne( Employer , { path: 'job' } );
 
 // Optimize: Create  
 exports.createEmployer=factory.createOne( Employer );
