@@ -20,14 +20,17 @@ export const nodeAPI = createApi({
     //Optimize:  ************************** Authentication ******************************
 
     //********** Get All users query
-    getAllUsers: builder.query({
-      query: (body) => ({
-        url: "/user/",
+    getAllChatUsers: builder.query({
+      
+      query: (body) => {
+        console.log('yaha dekho',body)
+        return({
+        url: `/${(body.role=='student' || body.role=='researcher')? 'user' : 'employer'}/chatlist/${body._id}`,
         method: "GET",
         headers: {
           authorization: `Bearer ${Cookies.get('jwt')}`
         }
-      }),
+      })},
       providesTags: [ 'User', 'Org' ],
     }),   
 
@@ -115,7 +118,7 @@ export const {
   useLoginMutation,
   usePasswordResetEmailMutation,
   useResetPasswordMutation,
-  useGetAllUsersQuery,
+  useGetAllChatUsersQuery,
   useGetAllCountriesQuery,
   useLoginUserMutation,
   useLoginOrgMutation,

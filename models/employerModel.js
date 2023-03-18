@@ -47,6 +47,10 @@ const employerSchema = new mongoose.Schema({
     enum: ['public', 'private']
   },
   researchInterest: [String],
+  chats: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  }],
   password: {
     type: String,
     required: [true, 'Please provide a password'],

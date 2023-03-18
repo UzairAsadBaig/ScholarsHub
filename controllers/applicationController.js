@@ -5,6 +5,8 @@ const AppError=require( "../utils/appError" );
 const factory=require( './handlerFactory' );
 const multer = require('multer');
 const sharp = require('sharp');
+const User = require("../models/userModel");
+const Employer = require("../models/employerModel");
 
 //Todo:  ********* helper functuions ***********
 
@@ -23,6 +25,8 @@ const upload = multer({
   fileFilter: multerFilter
 });
 
+
+
 exports.uploadUserPhoto = upload.single('photo');
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
@@ -38,6 +42,37 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+
+exports.startChat = catchAsync( async ( req, res, next ) => {
+  let query = Application.findById(req.params.id)
+  query = query.populate({path:'job'})
+  const application = await query
+
+  if (!application) {
+    return next(
+      new AppError("Could not found document with ID: "+req.params.id, 404)
+    )
+  }
+  
+  let userId = application.applicant;
+  let orgId = application.job.employer;
+  
+  let userChat = (await User.findById(userId,'chats')).toObject().chats
+  let employerChat = (await Employer.findById(orgId,'chats')).toObject().chats
+
+
+  userChat.push(orgId);
+  employerChat.push(userId);
+
+  await User.findByIdAndUpdate(userId,{chats:userChat})
+  await Employer.findByIdAndUpdate(orgId,{chats:employerChat})
+
+ res.status( 200 ).json( {
+   status: "success",
+ } )
+} );
+
 
 // Optimize: get all 
 exports.getAllApplication=factory.getAll( Application );
