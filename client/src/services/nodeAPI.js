@@ -187,6 +187,16 @@ export const nodeAPI = createApi({
           authorization: `Bearer ${Cookies.get( 'jwt' )}`
         }
       } ),
+      getAllWishListJobs: builder.query( {
+        query: ( body ) => ( {
+          url: `/user/wishlist/${body}`,
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${Cookies.get( 'jwt' )}`
+          }
+        } ),
+        providesTags: [ 'Job' ],
+      } ),  
     } ),
   }),
 });
@@ -209,4 +219,5 @@ export const {
   useGetAllApplicationsByEmpQuery,
   useGetAllJobsEmpQuery,
   useAddJobToWishListMutation,
+  useGetAllWishListJobsQuery
 } = nodeAPI;

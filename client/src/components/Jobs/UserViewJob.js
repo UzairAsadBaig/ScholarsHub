@@ -166,7 +166,7 @@ export const UserViewJob=() => {
            <div style={{marginTop:"2rem"}}>
             <Space>
             <Button onClick={showModal}>Send Proposal</Button>
-            <Button>Add to wishlist</Button>
+                    <Button onClick={() => handleWishList( jobId )}>Add to wishlist</Button>
             </Space>
            </div>
         
