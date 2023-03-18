@@ -5,6 +5,7 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
+const { Mongoose } = require('mongoose');
 
 // const multerStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
@@ -98,6 +99,63 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       user: updatedUser
     }
   });
+});
+
+exports.addToWishList =catchAsync(async (req, res, next) => {
+  let jobId = req.body.jobid;
+  let _wishList = (await User.findById(req.params.id,'wishList')).toObject().wishList;
+  _wishList.push(jobId)
+  let newDoc = await User.findByIdAndUpdate(req.params.id,{wishList:_wishList})
+  if(!newDoc)
+  res.status(500).json({
+    status: 'error',
+    message: 'user not updated'
+  });
+ res.status(200).json({
+   status: 'success',
+   data: {
+     user: newDoc
+   }
+ });
+});
+exports.deleteFromWishList =catchAsync(async (req, res, next) => {
+  let jobId = req.body.jobid;
+  let _wishList = (await User.findById(req.params.id,'wishList')).wishList;
+  _wishList = _wishList.map((el)=>el.toString())
+  const index = _wishList.indexOf(jobId);
+if (index > -1) { // only splice array when item is found
+  _wishList.splice(index, 1); // 2nd parameter means remove one item only
+}
+
+console.log(index,_wishList)
+  let newDoc = await User.findByIdAndUpdate(req.params.id,{wishList:_wishList})
+  if(!newDoc)
+  res.status(500).json({
+    status: 'error',
+    message: 'user not updated'
+  });
+ res.status(200).json({
+   status: 'success',
+   data: {
+     user: newDoc
+   }
+ });
+});
+
+exports.getWishList =catchAsync(async (req, res, next) => {
+  let doc = (await User.findById(req.params.id,'wishList').populate({path:'wishList'})).toObject();
+
+  if(!doc)
+  res.status(500).json({
+    status: 'error',
+    message: 'doc not found'
+  });
+ res.status(200).json({
+   status: 'success',
+   data: {
+     wishlist: doc.wishList
+   }
+ });
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {

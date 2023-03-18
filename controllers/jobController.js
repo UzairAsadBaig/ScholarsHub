@@ -17,6 +17,8 @@ exports.getJobsOfEmployer = catchAsync(async (req, res, next) => {
  });
 });
 
+
+
 // Optimize: get all 
 exports.getAllJob=factory.getAll( Job, { path: 'employer' } );
 

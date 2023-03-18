@@ -1,5 +1,6 @@
 
 const Application=require( "../models/applicationModel" );
+const Job=require( "../models/jobModel" );
 const catchAsync=require( "../utils/catchAsync" );
 const AppError=require( "../utils/appError" );
 const factory=require( './handlerFactory' );
@@ -68,6 +69,32 @@ exports.startChat = catchAsync( async ( req, res, next ) => {
   await User.findByIdAndUpdate(userId,{chats:userChat})
   await Employer.findByIdAndUpdate(orgId,{chats:employerChat})
 
+ res.status( 200 ).json( {
+   status: "success",
+ } )
+} );
+
+
+exports.hireEmp = catchAsync( async ( req, res, next ) => {
+  let query = Application.findById(req.params.id)
+  query = query.populate({path:'job'})
+  const application = await query
+
+  if (!application) {
+    return next(
+      new AppError("Could not found document with ID: "+req.params.id, 404)
+    )
+  }
+  
+  let userId = application.applicant;
+  let orgId = application.job.employer;
+  
+  let emp = (await Employer.findById(orgId)).toObject()
+
+
+  await User.findByIdAndUpdate(userId,{organization:emp.name});
+  await Job.findByIdAndUpdate(application.job.id,{status:false})
+  await Application.findByIdAndDelete(req.params.id);
  res.status( 200 ).json( {
    status: "success",
  } )
