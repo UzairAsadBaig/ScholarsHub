@@ -5,14 +5,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
-import { useDeleteJobMutation, useGetAllJobsQuery } from '../../services/nodeAPI';
+import { useDeleteJobMutation, useGetAllJobsEmpQuery, useGetAllJobsQuery } from '../../services/nodeAPI';
 import Spinner from '../Spinner';
+import { useSelector } from 'react-redux';
 
 export const Jobs = () => {
   const navigate= useNavigate()
   const [ isModalOpen, setIsModalOpen ]=useState( false );
 
-  const { data: jobsData, error, isLoading }=useGetAllJobsQuery();
+  const { user }=useSelector( state => state.user );
+  const { data: jobsData, error, isLoading }=useGetAllJobsEmpQuery( user.id );
   const [ jobs, setJobs ]=useState( null );
   const [ jobID, setJobID ]=useState( null );
   const [ deleteJob ]=useDeleteJobMutation();
@@ -20,12 +22,12 @@ export const Jobs = () => {
     if ( !isLoading&&jobsData ) {
       let arr=[];
       console.log( 'DATA:', jobsData );
-      jobsData.data.forEach( ( el, i ) => {
+      jobsData.data.jobs.forEach( ( el, i ) => {
         let obj={ ...el };
         obj.no=i;
         obj.key=i;
         obj.domain=el.oppType;
-        obj.date="22 Jan"; //replace
+        obj.date=el.date; //replace
         obj.status="open"; //replace
         arr.push( obj );
       } )

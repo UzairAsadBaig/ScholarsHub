@@ -7,12 +7,21 @@ const factory=require( './handlerFactory' );
 
 //Todo:  ********* helper functuions ***********
 
+exports.getJobsOfEmployer = catchAsync(async (req, res, next) => {
+  let jobs = await Job.find({employer:req.params.id});
+ res.status(200).json({
+   status: 'success',
+   data: {
+     jobs: jobs
+   }
+ });
+});
 
 // Optimize: get all 
-exports.getAllJob=factory.getAll( Job );
+exports.getAllJob=factory.getAll( Job, { path: 'employer' } );
 
 // Optimize: get single data basaed on id
-exports.getSingleJob=factory.getOne( Job );
+exports.getSingleJob=factory.getOne( Job, { path: 'employer' } );
 
 // Optimize: Create  
 exports.createJob=factory.createOne( Job );

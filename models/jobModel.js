@@ -32,6 +32,15 @@ const jobSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    date: {
+      type: Date,
+     default: Date.now()
+    },
+    status:{
+      type:Boolean,
+      default:true
+    }
+    ,
     employer: {
       type: mongoose.Schema.ObjectId,
       ref: 'Employer',

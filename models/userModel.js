@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
     enum: ['researcher', 'student']
   },
   researchInterest: [String],
+  chats: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Employer',
+  }],
   password: {
     type: String,
     required: [true, 'Please provide a password'],

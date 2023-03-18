@@ -13,22 +13,26 @@ export const nodeAPI = createApi({
   tagTypes: [
     "User",
     "Org",
-    "Job"
+    "Job",
+    "Applications",
   ],
 
   endpoints: (builder) => ({
     //Optimize:  ************************** Authentication ******************************
 
     //********** Get All users query
-    getAllUsers: builder.query({
-      query: (body) => ({
-        url: "/user/",
+    getAllChatUsers: builder.query({
+      
+      query: (body) => {
+        console.log('yaha dekho',body)
+        return({
+        url: `/${(body.role=='student' || body.role=='researcher')? 'user' : 'employer'}/chatlist/${body._id}`,
         method: "GET",
         headers: {
           authorization: `Bearer ${Cookies.get('jwt')}`
         }
-      }),
-      providesTags: [ 'User' ],
+      })},
+      providesTags: [ 'User', 'Org' ],
     }),   
 
      //********** Login query
@@ -88,6 +92,13 @@ export const nodeAPI = createApi({
         body,
       }),
       // invalidatesTags: [ 'User' ],
+    } ), 
+    getAllApplicationsByEmp: builder.query({
+      query: () => ({
+        url: "/application",
+        method: "GET",
+      }),
+      providesTags: [ 'Applications' ],
     } ),
     //*********** Get all countries data
     getAllCountries: builder.query( {
@@ -115,6 +126,17 @@ export const nodeAPI = createApi({
     getAllJobs: builder.query( {
       query: ( body ) => ( {
         url: "/job/",
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      providesTags: [ 'Job' ],
+    } ),
+    //********** Get All jobs of Emp
+    getAllJobsEmp: builder.query( {
+      query: ( body ) => ( {
+        url: `/job/employer/${body}`,
         method: "GET",
         headers: {
           authorization: `Bearer ${Cookies.get( 'jwt' )}`
@@ -154,8 +176,7 @@ export const nodeAPI = createApi({
         }
       } ),
       invalidatesTags: [ 'Job' ],
-    } )
-
+    } ),
   }),
 });
 
@@ -165,7 +186,7 @@ export const {
   useLoginMutation,
   usePasswordResetEmailMutation,
   useResetPasswordMutation,
-  useGetAllUsersQuery,
+  useGetAllChatUsersQuery,
   useGetAllCountriesQuery,
   useLoginUserMutation,
   useLoginOrgMutation,
@@ -173,5 +194,7 @@ export const {
   useGetAllJobsQuery,
   useGetJobQuery,
   useUpdateJobMutation,
-  useDeleteJobMutation
+  useDeleteJobMutation,
+  useGetAllApplicationsByEmpQuery,
+  useGetAllJobsEmpQuery
 } = nodeAPI;

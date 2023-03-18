@@ -15,18 +15,22 @@ const applicationSchema = new mongoose.Schema(
     },
     resume: {
       type: String,
-      required: [true, "Please upload resume!"],
+      // required: [true, "Please upload resume!"],
       trim: true,
     },
     applicant: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User',
-      required: [true, 'A application must belong to an applicant'],
+      ref: "User",
+      required: [true, "A application must belong to an applicant"],
+    },
+    Interviewtatus: {
+      type: Boolean,
+      default: false,
     },
     job: {
       type: mongoose.Schema.ObjectId,
-      ref: 'Job',
-      required: [true, 'A applicaiton must belong to an job'],
+      ref: "Job",
+      required: [true, "A applicaiton must belong to an job"],
     },
   },
   {

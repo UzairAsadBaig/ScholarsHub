@@ -5,7 +5,8 @@ const {
   updateApplication,
   deleteApplication,
   getSingleApplicationForUser,
-  getSingleApplicationForEmployer
+  getSingleApplicationForEmployer,
+  startChat
 } = require("../controllers/applicationController");
 
 const applicationRouter = express.Router();
@@ -15,6 +16,9 @@ const applicationRouter = express.Router();
 applicationRouter.route("/").get(getAllApplication).post(createApplication);
 applicationRouter.route("user/:id").get(getSingleApplicationForUser);
 applicationRouter.route("employer/:id").get(getSingleApplicationForEmployer);
+applicationRouter
+  .route("/startchat/:id")
+  .patch(startChat);
 applicationRouter
   .route("/:id")
   .delete(deleteApplication)
