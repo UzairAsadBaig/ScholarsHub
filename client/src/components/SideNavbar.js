@@ -54,9 +54,13 @@ export const SideNavbar = props => {
                   Insights
                 </span>
               </Link>
+<<<<<<< HEAD
+            </li>
+=======
             </li>}
             
 
+>>>>>>> 693586a797874a94b4475bfe82db249d06576f7d
            
             <li className=''>
               <Link
@@ -102,6 +106,11 @@ export const SideNavbar = props => {
                   Applicants
                 </span>
               </Link>
+<<<<<<< HEAD
+            </li>
+
+            <li className=''>
+=======
             </li>}
             {(user.role === 'student' || user.role ==='researcher') &&<li className=''>
               <Link
@@ -119,6 +128,7 @@ export const SideNavbar = props => {
               </Link>
             </li> }
            {(user.role === 'student' || user.role ==='researcher') && <li className=''>
+>>>>>>> 693586a797874a94b4475bfe82db249d06576f7d
               <Link
                 to='/dashboard/user/jobs'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Col, Input, Row, Tag, Button } from 'antd';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { PageHeader } from '../Generic/PageHeader';
@@ -11,16 +11,31 @@ const { Search }=Input;
 export const ViewUserJobs=() => {
     const navigate=useNavigate()
     const [ addJobToWishList ]=useAddJobToWishListMutation();
-    const onSearch=( value ) => console.log( value );
+    const onSearch=( value ) => {
+        const d=DATA.filter( el => el.title.includes( value.toLowerCase() ) )
+        setDATA( d )
+        console.log( value.toLowerCase(), d, DATA )
+    };
     const { user }=useSelector( state => state.user );
     const handleWishList=async ( id ) => {
         const res=await addJobToWishList( { userId: user._id, data: { jobid: id } } );
         console.log( 'Res', { userId: user.id, data: { jobid: id } }, res );
 
     }
+    const [ DATA, setDATA ]=useState( null );
 
     const { data, error, isLoading }=useGetAllJobsQuery();
-    if ( isLoading&&!data )
+
+    useEffect( () => {
+
+        if ( !isLoading&&data ) {
+            console.log( "****", data )
+            setDATA( data.data );
+        }
+
+    }, [ isLoading ] )
+
+    if ( isLoading&&!data&&!DATA )
         return <Spinner />
     return (
         <div>
@@ -33,7 +48,7 @@ export const ViewUserJobs=() => {
                     </div>
                     <h2>Jobs you might like</h2>
                     <div className='mt-10'>
-                        {data.data.map( ( el, i ) => {
+                        {DATA&&DATA.map( ( el, i ) => {
                             return ( <Card key={i} className='mt-3'>
                                 <Row>
                                     <Col span={22}>

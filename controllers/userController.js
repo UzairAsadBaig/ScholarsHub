@@ -145,6 +145,9 @@ console.log(index,_wishList)
 exports.getWishList =catchAsync(async (req, res, next) => {
   let doc = (await User.findById(req.params.id,'wishList').populate({path:'wishList'})).toObject();
 
+  const wl=[ ...new Set( doc.wishList ) ]
+  console.log( wl )
+
   if(!doc)
   res.status(500).json({
     status: 'error',
@@ -153,7 +156,7 @@ exports.getWishList =catchAsync(async (req, res, next) => {
  res.status(200).json({
    status: 'success',
    data: {
-     wishlist: doc.wishList
+     wishlist: wl
    }
  });
 });
