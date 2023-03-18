@@ -39,6 +39,21 @@ export const SideNavbar = props => {
           <ul className='space-y-2 px-3' style={{ marginTop: '2.7rem', listStyleType:'none' }}>
             <li className=''>
               <Link
+                to='/dashboard/insights'
+                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
+                  location.pathname.includes('insights')
+                    ? 'bg-blue-500 text-white'
+                    : 'hover:bg-gray-100 hover:text-gray-800'
+                }`}
+              >
+                <Dashboard className='' fill='CurrentColor' />
+                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
+                  Insights
+                </span>
+              </Link>
+            </li>
+             <li className=''>
+              <Link
                 to='/dashboard/table'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
                   location.pathname.includes('table')
@@ -53,21 +68,7 @@ export const SideNavbar = props => {
               </Link>
             </li>
 
-            <li className=''>
-              <Link
-                to='/dashboard/input'
-                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
-                  location.pathname.includes('job')
-                    ? 'bg-blue-500 text-white'
-                    : 'hover:bg-gray-100 hover:text-gray-800'
-                }`}
-              >
-                <Job className='' fill='CurrentColor' />
-                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
-                  Input field
-                </span>
-              </Link>
-            </li>
+           
             <li className=''>
               <Link
                 to='/dashboard/messenger'
@@ -102,7 +103,7 @@ export const SideNavbar = props => {
               <Link
                 to='/dashboard/applicants'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
-                  location.pathname.includes('jobs')
+                  location.pathname.includes('applicants')
                     ? 'bg-blue-500 text-white'
                     : 'hover:bg-gray-100 hover:text-gray-800'
                 }`}
@@ -110,6 +111,51 @@ export const SideNavbar = props => {
                 <Job className='' fill='CurrentColor' />
                 <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
                   Applicants
+                </span>
+              </Link>
+            </li>
+            <li className=''>
+              <Link
+                to='/dashboard/user/jobs/view'
+                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
+                  location.pathname.includes('/dashboard/user/jobs/view')
+                    ? 'bg-blue-500 text-white'
+                    : 'hover:bg-gray-100 hover:text-gray-800'
+                }`}
+              >
+                <Job className='' fill='CurrentColor' />
+                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
+                  User Job
+                </span>
+              </Link>
+            </li> 
+            <li className=''>
+              <Link
+                to='/dashboard/user/jobs'
+                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
+                  location.pathname.includes('/dashboard/user/jobs')
+                    ? 'bg-blue-500 text-white'
+                    : 'hover:bg-gray-100 hover:text-gray-800'
+                }`}
+              >
+                <Job className='' fill='CurrentColor' />
+                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
+                  User Jobs
+                </span>
+              </Link>
+            </li> 
+              <li className=''>
+              <Link
+                to='/dashboard/user/jobs/wishlisted'
+                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
+                  location.pathname.includes('/dashboard/user/jobs')
+                    ? 'bg-blue-500 text-white'
+                    : 'hover:bg-gray-100 hover:text-gray-800'
+                }`}
+              >
+                <Job className='' fill='CurrentColor' />
+                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
+                  Wishlisted Jobs
                 </span>
               </Link>
             </li>

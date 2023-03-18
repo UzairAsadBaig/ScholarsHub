@@ -36,7 +36,6 @@ export const Applicants = () => {
           render: (_, record) => (
             <div>
                 <span onClick={()=>navigate('/dashboard/applicants/view')}><VisibilityIcon/></span>&nbsp;
-                <span><DoneIcon/></span>&nbsp;
                 <span><CloseIcon/></span>
             </div>
           ),

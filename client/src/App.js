@@ -2,7 +2,6 @@ import "./App.css";
 import { Navbar } from "./components/Navbar";
 import { SideNavbar } from "./components/SideNavbar";
 import LoginForm from "./components/Login";
-import ResetPassword from "./components/ResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 import {Outlet} from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
@@ -21,6 +20,10 @@ import { UpdateJob } from "./components/Jobs/UpdateJob";
 import { ViewJob } from "./components/Jobs/ViewJob";
 import { Applicants } from "./components/Applicants/Applicants";
 import { ViewApplicant } from "./components/Applicants/ViewApplicant";
+import { UserViewJob } from "./components/Jobs/UserViewJob";
+import { ViewUserJobs } from "./components/Jobs/ViewUserJobs";
+import { WishlistJobs } from "./components/Jobs/WishlistJobs";
+import Insights from './components/Insights'
 
 function App() {
 
@@ -31,12 +34,7 @@ function App() {
         <Route exact path="/signup/user" element={<UserSignup />} />
         <Route exact path="/signup/org" element={<OrgSignup />} />
         <Route exact path="/login" element={<LoginForm />} />
-        <Route
-          exact
-          path="/reset-password/:token"
-          element={<ResetPassword />}
-        />
-
+      
         <Route exact path="/forbidden" element={<Forbidden />} />
 
         <Route
@@ -56,6 +54,15 @@ function App() {
         >
           {/****************** ROUTES  *****************/}
 
+          <Route
+            exact
+            path="insights"
+            element={
+              // <ProtectedRoute>
+                <Insights/>
+              // </ProtectedRoute>
+            }
+          />  
           <Route
             exact
             path="jobs"
@@ -112,6 +119,33 @@ function App() {
           />
           <Route
             exact
+            path="user/jobs/view"
+            element={
+              // <ProtectedRoute>
+                <UserViewJob/>
+              // </ProtectedRoute>
+            }
+          />
+           <Route
+            exact
+            path="user/jobs"
+            element={
+              // <ProtectedRoute>
+                <ViewUserJobs/>
+              // </ProtectedRoute>
+            }
+          /> 
+          <Route
+            exact
+            path="user/jobs/wishlisted"
+            element={
+              // <ProtectedRoute>
+                <WishlistJobs/>
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
             path="table"
             element={
               // <ProtectedRoute>
@@ -138,18 +172,13 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          
-
-      
-
           <Route
             exact
             path="settings"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <Settings />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
         </Route>

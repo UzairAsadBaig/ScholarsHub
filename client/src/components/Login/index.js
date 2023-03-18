@@ -1,7 +1,7 @@
 import React from 'react'
 import SideBox from './../Generic/SideBox'
 import { Link } from 'react-router-dom'
-import { useLoginMutation, useLoginOrgMutation, useLoginUserMutation } from '../../services/nodeAPI'
+import { useLoginOrgMutation, useLoginUserMutation } from '../../services/nodeAPI'
 import { Form, Input, Button, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import Cook from 'js-cookie';

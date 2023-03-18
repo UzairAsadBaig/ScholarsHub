@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Details from './Details'
-import Password from './Password'
+import ViewProfile from './ViewProfile'
+import EditProfile from './EditProfile'
 import './setting.css'
 
 const Settings = () => {
@@ -11,6 +11,7 @@ const Settings = () => {
       <h3 className='text-2xl font-semibold dark:text-white'>
         Profile Settings
       </h3>
+      <small>On this page you can view and update your profile</small>
       <div className='border-b border-gray-200 dark:border-gray-700'>
         <ul className='gap-2 flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400' style={{listStyleType:'none'}}>
           <li className=''>
@@ -41,7 +42,7 @@ const Settings = () => {
                   clipRule='evenodd'
                 ></path>
               </svg>
-              <span className='hidden md:block'>Profile</span>
+              <span className='hidden md:block'>View</span>
             </span>
           </li>
           <li className=''>
@@ -68,16 +69,16 @@ const Settings = () => {
               >
                 <path d='M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'></path>
               </svg>
-              <span className='hidden md:block'>Password</span>
+              <span className='hidden md:block'>Edit</span>
             </span>
           </li>
         </ul>
       </div>
 
       <div>
-        {tabIndex === 1 && <Details />}
+        {tabIndex === 1 && <ViewProfile />}
 
-        {tabIndex === 2 && <Password />}
+        {tabIndex === 2 && <EditProfile />}
       </div>
     </div>
   )
