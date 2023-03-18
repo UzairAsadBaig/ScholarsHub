@@ -48,7 +48,12 @@ exports.signupUser = catchAsync(async (req, res, next) => {
     photo: req.body.photo,
     country: req.body.country,
     bio: req.body.bio,
-    educaiton:req.body.education,
+    educaiton: {
+      degree: req.body.degree,
+      filedOfStudy: req.body.field,
+      institute: req.body.institue,
+      yearGrad: req.body.yearGrad
+    },
     phone: req.body.phone,
     skills: req.body.skills,
     language: req.body.language,
@@ -72,10 +77,11 @@ exports.signupEmployer = catchAsync(async (req, res, next) => {
     photo: req.body.photo,
     website: req.body.website,
     country: req.body.country,
+    domain: req.body.domain,
     about: req.body.about,
+    address: req.body.address,
     phone: req.body.phone,
     role: req.body.role,
-    domain: req.body.domain,
     type: req.body.type
   });
 

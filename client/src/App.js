@@ -1,7 +1,6 @@
 import "./App.css";
 import { Navbar } from "./components/Navbar";
 import { SideNavbar } from "./components/SideNavbar";
-import SignUpForm from "./components/Signup";
 import LoginForm from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import {Outlet} from "react-router-dom";
@@ -13,6 +12,8 @@ import Forbidden from "./components/ErrorTemplates/ForbiddenPage";
 import PageNotFound from "./components/ErrorTemplates/PageNotFound";
 import TableComp from "./components/TableComp/TableComp";
 import Messenger from './components/Messenger'
+import UserSignup from "./components/Signup/UserSignup";
+import OrgSignup from "./components/Signup/OrgSignup";
 import {Jobs} from "./components/Jobs/Jobs";
 import {AddJob} from "./components/Jobs/AddJob";
 import { UpdateJob } from "./components/Jobs/UpdateJob";
@@ -30,9 +31,8 @@ function App() {
     <>
       <Routes>
         <Route exact path="/" element={<Landing />} />
-
-       
-        <Route exact path="/signup" element={<SignUpForm />} />
+        <Route exact path="/signup/user" element={<UserSignup />} />
+        <Route exact path="/signup/org" element={<OrgSignup />} />
         <Route exact path="/login" element={<LoginForm />} />
       
         <Route exact path="/forbidden" element={<Forbidden />} />

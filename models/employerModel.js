@@ -23,6 +23,9 @@ const employerSchema = new mongoose.Schema({
   country: {
     type: String,
   },
+  domain: {
+    type: String,
+  },
   about: {
     type: String,
   },
@@ -31,6 +34,9 @@ const employerSchema = new mongoose.Schema({
   },
   website: {
     type: String,
+  },
+  address: {
+    type: String
   },
   role: {
     type: String,
