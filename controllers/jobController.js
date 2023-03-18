@@ -20,10 +20,10 @@ exports.getJobsOfEmployer = catchAsync(async (req, res, next) => {
 
 
 // Optimize: get all 
-exports.getAllJob=factory.getAll( Job);
+exports.getAllJob=factory.getAll( Job, { path: 'employer' } );
 
 // Optimize: get single data basaed on id
-exports.getSingleJob=factory.getOne( Job );
+exports.getSingleJob=factory.getOne( Job, { path: 'employer' } );
 
 // Optimize: Create  
 exports.createJob=factory.createOne( Job );

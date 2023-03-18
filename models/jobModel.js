@@ -18,9 +18,14 @@ const jobSchema = new mongoose.Schema(
       required: [true, "Please enter oppType!"],
     },
     domain: [String],
-    requirement: {
+    requirements: {
       type: String,
-      required: [true, "Please enter requirement!"],
+      required: [ true, "Please enter requirements!" ],
+      trim: true,
+    },
+    description: {
+      type: String,
+      required: [ true, "Please enter description!" ],
       trim: true,
     },
     instructions: {

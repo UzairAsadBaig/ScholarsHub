@@ -12,8 +12,10 @@ export const nodeAPI = createApi({
   // Entities of API
   tagTypes: [
     "User",
-    "Employee",
-    "Applications"
+    "Org",
+    "Job",
+    "Applications",
+    "WL"
   ],
 
   endpoints: (builder) => ({
@@ -40,7 +42,7 @@ export const nodeAPI = createApi({
         method: "POST",
         body,
       }),
-      // invalidatesTags: [ 'User' ],
+      invalidatesTags: [ 'User' ],
     }),
     updateMe: builder.mutation( {
       query: (body) => ({
@@ -64,7 +66,7 @@ export const nodeAPI = createApi({
         method: "POST",
         body,
       }),
-      // invalidatesTags: [ 'User' ],
+      invalidatesTags: [ 'Org' ],
     }),
 
     //********** Sign up User
@@ -130,6 +132,93 @@ export const nodeAPI = createApi({
         }
       } )
     } ),
+    //********** Create Job by Org
+    createJob: builder.mutation( {
+      query: ( body ) => ( {
+        url: "/job",
+        method: "POST",
+        body,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      invalidatesTags: [ 'Job' ],
+    } ),
+    //********** Get All jobs
+    getAllJobs: builder.query( {
+      query: ( body ) => ( {
+        url: "/job/",
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      providesTags: [ 'Job' ],
+    } ),
+    //********** Get All jobs of Emp
+    getAllJobsEmp: builder.query( {
+      query: ( body ) => ( {
+        url: `/job/employer/${body}`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      providesTags: [ 'Job' ],
+    } ),
+    //********** Get single job
+    getJob: builder.query( {
+      query: ( body ) => ( {
+        url: `/job/${body.jobId}`,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      providesTags: [ 'Job' ],
+    } ),
+    updateJob: builder.mutation( {
+      query: ( body ) => ( {
+        url: `/job/${body.id}`,
+        method: "PATCH",
+        body: body.data,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      invalidatesTags: [ 'Job' ],
+    } ),
+    deleteJob: builder.mutation( {
+      query: ( body ) => ( {
+        url: `/job/${body}`,
+        method: "DELETE",
+        body: body.data,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      invalidatesTags: [ 'Job' ],
+    } ),
+    addJobToWishList: builder.mutation( {
+      query: ( body ) => ( {
+        url: `/user/wishlist/add/${body.userId}`,
+        method: "POST",
+        body: body.data,
+        headers: {
+          authorization: `Bearer ${Cookies.get( 'jwt' )}`
+        }
+      } ),
+      getAllWishListJobs: builder.query( {
+        query: ( body ) => ( {
+          url: `/user/wishlist/${body}`,
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${Cookies.get( 'jwt' )}`
+          }
+        } ),
+        providesTags: [ 'Job' ],
+      } ),  
+    } ),
   }),
 });
 
@@ -143,8 +232,16 @@ export const {
   useGetAllCountriesQuery,
   useLoginUserMutation,
   useLoginOrgMutation,
+  useCreateJobMutation,
+  useGetAllJobsQuery,
+  useGetJobQuery,
+  useUpdateJobMutation,
+  useDeleteJobMutation,
   useGetAllApplicationsByEmpQuery,
-  useGetSingleApplicationByEmployerQuery,
   useUpdateMeMutation,
-  useDeleteApplicantMutation
+  useDeleteApplicantMutation,
+  useGetAllJobsEmpQuery,
+  useAddJobToWishListMutation,
+  useGetAllWishListJobsQuery,
+  useGetSingleApplicationByEmployerQuery
 } = nodeAPI;

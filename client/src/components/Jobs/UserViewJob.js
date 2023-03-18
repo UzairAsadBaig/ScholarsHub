@@ -2,9 +2,23 @@ import React, {useState} from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Card, Row,Col, Divider,Modal, Tag, Button, Space, Input, Form, Upload} from 'antd';
 import { Stack, Typography , Box} from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { useAddJobToWishListMutation, useGetJobQuery } from '../../services/nodeAPI';
+import Spinner from '../Spinner';
+import { useSelector } from 'react-redux';
 const {TextArea }= Input
-export const UserViewJob = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+export const UserViewJob=() => {
+  let { jobId }=useParams();
+  const { data, error, isLoading }=useGetJobQuery( { jobId } );
+  const [ addJobToWishList ]=useAddJobToWishListMutation();
+
+  const [ isModalOpen, setIsModalOpen ]=useState( false );
+  const { user }=useSelector( state => state.user );
+  const handleWishList=async ( id ) => {
+    const res=await addJobToWishList( { userId: user._id, data: { jobid: id } } );
+    console.log( 'Res', { userId: user.id, data: { jobid: id } }, res );
+
+  }
     const onFinish = (values) => {
         console.log('Success:', values);
       };
@@ -40,9 +54,11 @@ export const UserViewJob = () => {
         },
       };
 
-
+  if ( isLoading&&!data )
+    return <Spinner />
     return (
-        <div>
+      <div>
+        {console.log( 'Data----->:', data )}
              <div>
              <Modal title="Submit Proposal" footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
              <Form
@@ -101,18 +117,18 @@ export const UserViewJob = () => {
           <div style={{ paddingInline: '5rem', paddingBlock: '3rem' }}>
             <Row>
               <Col span={16}>
-                <Typography variant='h2'>Need a Full Stack Developer</Typography>
+                    <Typography variant='h2'>{data.data.title}</Typography>
 
                 <Stack direction='row' alignItems='center' spacing={1}>
                     <small>by</small>
                   <Typography style={{fontSize:'1.4rem', opacity:0.8}} noWrap>
-                   DevFUM
-                  </Typography> <span> <Tag color='cyan'>Research Engineer</Tag></span>
+                        {data.data.employer.name}
+                      </Typography> <span>{data.data.domain.map( ( _el ) => <Tag color='cyan'>{_el}</Tag> )} </span>
                 </Stack>
                 <Typography sx={{ marginTop: '1rem' }} variant='h6'>
                   Posted On
                 </Typography>
-                <Typography variant='p'>Feb 2, 2023</Typography>
+                    <Typography variant='p'>{data.data.date}</Typography>
                
               </Col>
               <Col span={12}>
@@ -123,7 +139,7 @@ export const UserViewJob = () => {
               <h3>Job Description</h3>
             </Box>
             <Row>
-              okoko
+                  {data.data.description}
             </Row>
             
            
@@ -133,7 +149,7 @@ export const UserViewJob = () => {
               <h3>Job Instructions</h3>
             </Box>
             <Row style={{ marginTop: '3rem' }}>
-             ok
+                  {data.data.instructions}
             </Row>
            
             <Divider/>
@@ -141,21 +157,16 @@ export const UserViewJob = () => {
               <h3>Job Requirements</h3>
             </Box>
             <Row style={{ marginTop: '2rem' }}>
-              okokok
+                  {data.data.requirement}
             </Row>
             
            
                 <Divider/>
-            <Box sx={{ marginTop: '4rem', marginBottom: '2rem' }}>
-              <h3>Research Interests</h3>
-            </Box>
-            <Row style={{ marginTop: '2rem' }}>
-             okokokok
-            </Row>
+
            <div style={{marginTop:"2rem"}}>
             <Space>
             <Button onClick={showModal}>Send Proposal</Button>
-            <Button>Add to wishlist</Button>
+                    <Button onClick={() => handleWishList( jobId )}>Add to wishlist</Button>
             </Space>
            </div>
         

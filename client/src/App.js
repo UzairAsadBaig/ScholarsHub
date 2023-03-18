@@ -85,7 +85,7 @@ function App() {
           />}
            {(user.role === 'organization' || user.role ==='institute') &&<Route
             exact
-            path="jobs/view"
+            path="jobs/view/:jobId"
             element={
               <ProtectedRoute>
                 <ViewJob/>
@@ -94,7 +94,7 @@ function App() {
           />}
           {(user.role === 'organization' || user.role ==='institute') &&<Route
             exact
-            path="jobs/edit"
+            path="jobs/edit/:jobId"
             element={
               <ProtectedRoute>
                 <UpdateJob/>
@@ -122,7 +122,7 @@ function App() {
           />}
           {(user.role === 'student' || user.role ==='researcher') &&<Route
             exact
-            path="user/jobs/view"
+            path="user/jobs/view/:jobId"
             element={
               <ProtectedRoute>
                 <UserViewJob/>
