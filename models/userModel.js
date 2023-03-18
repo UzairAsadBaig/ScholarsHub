@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['researcher', 'student']
   },
+  wishList: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Job',
+  }],
   researchInterest: [String],
   chats: [{
     type: mongoose.Schema.ObjectId,
