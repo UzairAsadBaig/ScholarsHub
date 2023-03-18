@@ -41,7 +41,7 @@ function App() {
           exact
           path="dashboard"
           element={
-            // <ProtectedRoute>
+            <ProtectedRoute>
               <>
                 <Navbar />
                 <SideNavbar />
@@ -49,7 +49,7 @@ function App() {
                   <Outlet />
                 </div>
               </>
-            // </ProtectedRoute>
+            </ProtectedRoute>
           }
         >
           {/****************** ROUTES  *****************/}

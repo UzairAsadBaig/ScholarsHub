@@ -13,6 +13,7 @@ export const nodeAPI = createApi({
   tagTypes: [
     "User",
     "Employee",
+    "Applications"
   ],
 
   endpoints: (builder) => ({
@@ -87,6 +88,13 @@ export const nodeAPI = createApi({
         body,
       }),
       // invalidatesTags: [ 'User' ],
+    } ), 
+    getAllApplicationsByEmp: builder.query({
+      query: () => ({
+        url: "/application",
+        method: "GET",
+      }),
+      providesTags: [ 'Applications' ],
     } ),
     //*********** Get all countries data
     getAllCountries: builder.query( {
@@ -110,5 +118,6 @@ export const {
   useGetAllUsersQuery,
   useGetAllCountriesQuery,
   useLoginUserMutation,
-  useLoginOrgMutation
+  useLoginOrgMutation,
+  useGetAllApplicationsByEmpQuery
 } = nodeAPI;
