@@ -24,8 +24,10 @@ import { UserViewJob } from "./components/Jobs/UserViewJob";
 import { ViewUserJobs } from "./components/Jobs/ViewUserJobs";
 import { WishlistJobs } from "./components/Jobs/WishlistJobs";
 import Insights from './components/Insights'
+import { useSelector } from "react-redux";
 
 function App() {
+  const { user } = useSelector(state => state.user)
 
   return (
     <>
@@ -54,105 +56,98 @@ function App() {
         >
           {/****************** ROUTES  *****************/}
 
-          <Route
+         {(user.role === 'organization' || user.role ==='institute') && <Route
             exact
             path="insights"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <Insights/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />  
-          <Route
+          />  }
+          {(user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="jobs"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <Jobs/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />  
-           <Route
+          />  }
+          { <Route
             exact
             path="jobs/add"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <AddJob/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />
-           <Route
+          />}
+           {(user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="jobs/view/:jobId"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <ViewJob/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />
-          <Route
+          />}
+          {(user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="jobs/edit/:jobId"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <UpdateJob/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />
-           <Route
+          />}
+
+          {(user.role === 'organization' || user.role ==='institute') && <Route
             exact
             path="applicants"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <Applicants/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />
-          <Route
+          />}
+          { (user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="applicants/view/:appId"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <ViewApplicant/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />
-          <Route
+          />}
+          {(user.role === 'student' || user.role ==='researcher') &&<Route
             exact
             path="user/jobs/view/:jobId"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <UserViewJob/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />
-           <Route
+          />}
+           {(user.role === 'student' || user.role ==='researcher')&&<Route
             exact
             path="user/jobs"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <ViewUserJobs/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          /> 
-          <Route
+          /> }
+          {(user.role === 'student' || user.role ==='researcher')&&<Route
             exact
             path="user/jobs/wishlisted"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <WishlistJobs/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
-          />
-          <Route
-            exact
-            path="table"
-            element={
-              // <ProtectedRoute>
-                <TableComp />
-              // </ProtectedRoute>
-            }
-          />
+          />}
+          
            <Route
             exact
             path="messenger"
@@ -165,20 +160,11 @@ function App() {
         
           <Route
             exact
-            path="employees"
-            element={
-              <ProtectedRoute resource="4">
-                <Employees />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            exact
             path="settings"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <Settings />
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
           />
         </Route>
