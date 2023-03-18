@@ -7,10 +7,9 @@ const EditProfile = () => {
   console.log(user)
     const onFinish = values => {
         console.log('Success:', values)
+        let formData = new Form();
       }
-      const onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo)
-      }
+    
       const onChange = value => {
         console.log(`selected ${value}`)
       }
@@ -40,11 +39,11 @@ const EditProfile = () => {
             type: user.type,
             language: user.language,
             domain: user.domain,
-            address: user.address
+            address: user.address,
+            skills: user.skills
 
           }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete='off'
           layout='vertical'
         >
@@ -148,7 +147,7 @@ const EditProfile = () => {
              
             >
               <Select
-              defaultValue={user.domain}
+              defaultValue={user.researchInterest}
               mode='multiple'
                 showSearch
                 placeholder='Select research interests'
@@ -196,7 +195,7 @@ const EditProfile = () => {
             </Col>
           </Row>
 
-        <Row
+       {(user.role=== 'organization' || user.role === 'institute') && <Row
         >
           <Col span={21}>
           <Form.Item
@@ -207,7 +206,7 @@ const EditProfile = () => {
             <TextArea row={3}/>
            </Form.Item>
           </Col>
-        </Row>
+        </Row>}
 
           <Form.Item style={{marginTop:'2rem'}}>
             <Button type='primary' htmlType='submit' size='large'>

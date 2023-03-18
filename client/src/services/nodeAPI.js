@@ -24,7 +24,7 @@ export const nodeAPI = createApi({
       
       query: (body) => {
         return({
-        url: `/${(body.role=='student' || body.role=='researcher')? 'user' : 'employer'}/chatlist/${body._id}`,
+        url: `/${(body.role==='student' || body.role==='researcher')? 'user' : 'employer'}/chatlist/${body._id}`,
         method: "GET",
         headers: {
           authorization: `Bearer ${Cookies.get('jwt')}`
@@ -49,6 +49,13 @@ export const nodeAPI = createApi({
         body,
       }),
       invalidatesTags: [ 'User' ],
+    }), 
+    deleteApplicant: builder.mutation( {
+      query: (id) => ({
+        url: `/application/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [ 'Applications' ],
     }),
     //********** Login query
     loginOrg: builder.mutation( {
@@ -137,5 +144,7 @@ export const {
   useLoginUserMutation,
   useLoginOrgMutation,
   useGetAllApplicationsByEmpQuery,
-  useGetSingleApplicationByEmployerQuery
+  useGetSingleApplicationByEmployerQuery,
+  useUpdateMeMutation,
+  useDeleteApplicantMutation
 } = nodeAPI;

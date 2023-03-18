@@ -4,17 +4,19 @@ import { PageHeader } from '../Generic/PageHeader';
 import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
-import { useGetAllApplicationsByEmpQuery } from '../../services/nodeAPI';
+import { useGetAllApplicationsByEmpQuery, useDeleteApplicantMutation } from '../../services/nodeAPI';
 
 export const Applicants = () => {
     const navigate = useNavigate();
     const {data: apps, isLoading} = useGetAllApplicationsByEmpQuery();
+    const [deleteApplicant] = useDeleteApplicantMutation()
+
     const columns = [
         {
           title: 'Applicant Name',
           dataIndex: 'name',
           key: 'name',
-          render: (text) => <a>{text}</a>,
+          render: (text) => text,
         },
         {
           title: 'Applicant Email',
@@ -42,7 +44,7 @@ export const Applicants = () => {
             return (
               <div>
                   <span onClick={()=>navigate(`/dashboard/applicants/view/${record.id}`)}><VisibilityIcon/></span>&nbsp;
-                  <span><CloseIcon/></span>
+                  <span onClick={async()=>{await deleteApplicant(record.id)}}><CloseIcon/></span>
               </div>
             )
           }

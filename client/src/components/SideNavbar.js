@@ -3,8 +3,11 @@ import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { ReactComponent as Dashboard } from '../img/dash12.svg'
 import { ReactComponent as Job } from '../img/job.svg'
+import { useSelector } from 'react-redux'
 
 export const SideNavbar = props => {
+  const { user } = useSelector(state => state.user)
+
   const location = useLocation()
 
   return (
@@ -37,7 +40,7 @@ export const SideNavbar = props => {
             </a>
           </div>
           <ul className='space-y-2 px-3' style={{ marginTop: '2.7rem', listStyleType:'none' }}>
-            <li className=''>
+           {(user.role === 'organization' || user.role ==='institute') && <li className=''>
               <Link
                 to='/dashboard/insights'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
@@ -51,22 +54,8 @@ export const SideNavbar = props => {
                   Insights
                 </span>
               </Link>
-            </li>
-             <li className=''>
-              <Link
-                to='/dashboard/table'
-                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
-                  location.pathname.includes('table')
-                    ? 'bg-blue-500 text-white'
-                    : 'hover:bg-gray-100 hover:text-gray-800'
-                }`}
-              >
-                <Dashboard className='' fill='CurrentColor' />
-                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
-                  Table
-                </span>
-              </Link>
-            </li>
+            </li>}
+            
 
            
             <li className=''>
@@ -84,7 +73,7 @@ export const SideNavbar = props => {
                 </span>
               </Link>
             </li>
-            <li className=''>
+            {(user.role === 'organization' || user.role ==='institute') &&<li className=''>
               <Link
                 to='/dashboard/jobs'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
@@ -98,8 +87,8 @@ export const SideNavbar = props => {
                   Jobs
                 </span>
               </Link>
-            </li>
-            <li className=''>
+            </li>}
+            {(user.role === 'organization' || user.role ==='institute') &&<li className=''>
               <Link
                 to='/dashboard/applicants'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
@@ -113,8 +102,8 @@ export const SideNavbar = props => {
                   Applicants
                 </span>
               </Link>
-            </li>
-            <li className=''>
+            </li>}
+            {(user.role === 'student' || user.role ==='researcher') &&<li className=''>
               <Link
                 to='/dashboard/user/jobs/view'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
@@ -128,8 +117,8 @@ export const SideNavbar = props => {
                   User Job
                 </span>
               </Link>
-            </li> 
-            <li className=''>
+            </li> }
+           {(user.role === 'student' || user.role ==='researcher') && <li className=''>
               <Link
                 to='/dashboard/user/jobs'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
@@ -143,8 +132,8 @@ export const SideNavbar = props => {
                   User Jobs
                 </span>
               </Link>
-            </li> 
-              <li className=''>
+            </li> }
+             {(user.role === 'student' || user.role ==='researcher') && <li className=''>
               <Link
                 to='/dashboard/user/jobs/wishlisted'
                 className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
@@ -158,7 +147,7 @@ export const SideNavbar = props => {
                   Wishlisted Jobs
                 </span>
               </Link>
-            </li>
+            </li>}
           </ul>
         </div>
       </aside>

@@ -28,18 +28,10 @@ export const ViewApplicant = () => {
   const showModal = () => {
     setIsModalOpen(true)
   }
-  const handleOk = () => {
-    setIsModalOpen(false)
-  }
-  const handleCancel = () => {
-    setIsModalOpen(false)
-  }
   const onFinish = values => {
     console.log('Success:', values)
   }
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo)
-  }
+
   if(!data && isLoading)
     return <Spinner/>
   return (
@@ -48,8 +40,6 @@ export const ViewApplicant = () => {
         title='Schedule Interview'
         footer={false}
         open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
       >
         <Form
           name='basic'
@@ -58,7 +48,6 @@ export const ViewApplicant = () => {
             remember: true
           }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete='off'
         >
           <Form.Item
