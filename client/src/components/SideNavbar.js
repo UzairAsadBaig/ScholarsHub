@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { ReactComponent as Dashboard } from '../img/dash12.svg'
 import { ReactComponent as Job } from '../img/job.svg'
-import { useSelector } from 'react-redux'
 
 export const SideNavbar = props => {
   const location = useLocation()
@@ -81,6 +80,36 @@ export const SideNavbar = props => {
                 <Job className='' fill='CurrentColor' />
                 <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
                   Messenger
+                </span>
+              </Link>
+            </li>
+            <li className=''>
+              <Link
+                to='/dashboard/jobs'
+                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
+                  location.pathname.includes('jobs')
+                    ? 'bg-blue-500 text-white'
+                    : 'hover:bg-gray-100 hover:text-gray-800'
+                }`}
+              >
+                <Job className='' fill='CurrentColor' />
+                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
+                  Jobs
+                </span>
+              </Link>
+            </li>
+            <li className=''>
+              <Link
+                to='/dashboard/applicants'
+                className={`flex items-center px-2.5 py-2.5 text-base font-normal rounded-lg text-gray-800 ${
+                  location.pathname.includes('jobs')
+                    ? 'bg-blue-500 text-white'
+                    : 'hover:bg-gray-100 hover:text-gray-800'
+                }`}
+              >
+                <Job className='' fill='CurrentColor' />
+                <span className='md:hidden block 2xl:block flex-1 ml-4 whitespace-nowrap'>
+                  Applicants
                 </span>
               </Link>
             </li>

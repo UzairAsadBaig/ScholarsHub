@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./landingPage.css";
 import { Link } from "react-scroll";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import Card from "./Card";
-import { useState } from "react";
+import JobsPage from "./JobsPage";
 
 const Landing = () => {
   const navigate = useNavigate();
+  const [showJob,setShowJob] = useState(false)
 
   const [faqs, setFaqs] = useState([
     {
@@ -81,13 +82,6 @@ const Landing = () => {
     },
   ];
 
-  // function checkIsLoggedIn() {
-  //   if (Cookies.get("jwt") !== undefined && Cookies.get("jwt") !== null) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   return (
     <>
@@ -172,6 +166,8 @@ const Landing = () => {
                   smooth={true}
                   offset={-90}
                   duration={500}
+
+                  onClick={()=>{setShowJob(false)}}
                 >
                   Home
                 </Link>
@@ -184,8 +180,22 @@ const Landing = () => {
                   smooth={true}
                   offset={-90}
                   duration={500}
+                  onClick={()=>{setShowJob(false)}}
+
                 >
                   Services
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="block py-2 px-3 text-gray-700 rounded border-gray-100 hover:bg-gray-50 md:bg-white md:border-0 md:hover:text-blue-700 md:p-0 "
+                  spy={true}
+                  smooth={true}
+                  offset={-90}
+                  duration={500}
+                  onClick={()=>{setShowJob(true)}}
+                >
+                  Jobs
                 </Link>
               </li>
               <li>
@@ -196,6 +206,8 @@ const Landing = () => {
                   smooth={true}
                   offset={-90}
                   duration={500}
+
+                  onClick={()=>{setShowJob(false)}}
                 >
                   About us
                 </Link>
@@ -208,6 +220,8 @@ const Landing = () => {
                   smooth={true}
                   offset={-90}
                   duration={500}
+                  onClick={()=>{setShowJob(false)}}
+
                 >
                   Contact us
                 </Link>
@@ -219,6 +233,7 @@ const Landing = () => {
       {
         //************  LANDING CONTENT **************
       }
+     {!showJob ?<div>
 
       <div className="mt-24" id="home">
         <div className="gap-3 flex flex-wrap w-full">
@@ -252,13 +267,7 @@ const Landing = () => {
                   ></path>
                 </svg>
               </button>
-              {/* <button
-                className="btn blue_btn get_start_btn"
-                
-              >
-                <span className="me-2">Get Started</span>{" "}
-                <FontAwesomeIcon icon={faLongArrowRight} />{" "}
-              </button> */}
+         
               <Link
                 className="contact_btn mx-3 font-medium text-blue-800 hover:text-blue-800"
                 to="contact_us"
@@ -419,22 +428,7 @@ const Landing = () => {
         </div>
       </div>
 
-      {
-        //************  SLIDER **************
-      }
-
-      {/* <div className="container client_sec" id="about_us">
-        <h2 className="text-center main_head">
-          What our <span className="highlight">clients</span> say!
-        </h2>
-        <p className="para text-center w-75 mx-auto">
-        </p> */}
-      {/*------------ SLIDER  ----------*/}
-      {/* <div className="slider">
-          <Slider />
-        </div>
-      </div> */}
-
+     
       {
         //************  CONTACT US **************
       }
@@ -563,6 +557,7 @@ const Landing = () => {
         </div>
       </div>
 
+      </div>: <JobsPage/>}
       {
         //************  FOOTER **************
       }
