@@ -35,7 +35,7 @@ const LoginForm=() => {
       Cookies.set( "jwt", userRes.data.token );
       dispatch( setUser( userRes.data.data.user ) )
       setTimeout( () => {
-        navigate( '/dashboard/jobs' )
+        navigate( '/dashboard/user/jobs' )
       }, 1000 )
     }
     else if ( orgRes.data&&orgRes.data.status==='success' ) {

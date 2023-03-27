@@ -28,7 +28,7 @@ import { useSelector } from "react-redux";
 
 function App() {
   const { user } = useSelector(state => state.user)
-
+  console.log(user)
   return (
     <>
       <Routes>
@@ -56,7 +56,7 @@ function App() {
         >
           {/****************** ROUTES  *****************/}
 
-         {(user.role === 'organization' || user.role ==='institute') && <Route
+         {user && (user.role === 'organization' || user.role ==='institute') && <Route
             exact
             path="insights"
             element={
@@ -65,7 +65,7 @@ function App() {
               </ProtectedRoute>
             }
           />  }
-          {(user.role === 'organization' || user.role ==='institute') &&<Route
+          {user && (user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="jobs"
             element={
@@ -83,7 +83,7 @@ function App() {
               </ProtectedRoute>
             }
           />}
-           {(user.role === 'organization' || user.role ==='institute') &&<Route
+           {user && (user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="jobs/view/:jobId"
             element={
@@ -92,7 +92,7 @@ function App() {
               </ProtectedRoute>
             }
           />}
-          {(user.role === 'organization' || user.role ==='institute') &&<Route
+          {user && (user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="jobs/edit/:jobId"
             element={
@@ -102,7 +102,7 @@ function App() {
             }
           />}
 
-          {(user.role === 'organization' || user.role ==='institute') && <Route
+          {user && (user.role === 'organization' || user.role ==='institute') && <Route
             exact
             path="applicants"
             element={
@@ -111,7 +111,7 @@ function App() {
               </ProtectedRoute>
             }
           />}
-          { (user.role === 'organization' || user.role ==='institute') &&<Route
+          { user && (user.role === 'organization' || user.role ==='institute') &&<Route
             exact
             path="applicants/view/:appId"
             element={
@@ -120,7 +120,7 @@ function App() {
               </ProtectedRoute>
             }
           />}
-          {(user.role === 'student' || user.role ==='researcher') &&<Route
+          {user && (user.role === 'student' || user.role ==='researcher') &&<Route
             exact
             path="user/jobs/view/:jobId"
             element={
@@ -129,7 +129,7 @@ function App() {
               </ProtectedRoute>
             }
           />}
-           {(user.role === 'student' || user.role ==='researcher')&&<Route
+           {user && (user.role === 'student' || user.role ==='researcher')&&<Route
             exact
             path="user/jobs"
             element={
@@ -138,7 +138,7 @@ function App() {
               </ProtectedRoute>
             }
           /> }
-          {(user.role === 'student' || user.role ==='researcher')&&<Route
+          {user && (user.role === 'student' || user.role ==='researcher')&&<Route
             exact
             path="user/jobs/wishlisted"
             element={
